@@ -1,0 +1,9 @@
+"main.obj",
+"sub.obj",
+"dscr.obj",
+".\Ezusb.lib",
+"INTJmpTb.obj" 
+TO "CTS500" 
+RAMSIZE(256) 
+CODE( 0X0000-0XFFFF )
+XDATA( 0X0000-0XFFFF )

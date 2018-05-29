@@ -1,0 +1,1105 @@
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 1   
+
+
+C51 COMPILER V9.05, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND CODE
+
+line level    source
+
+   1           //2012.12.15   VER2.00
+   2           //  ”√”⁄µ⁄ŒÂ∞ÊPCB
+   3          
+   4          #include "fx2.h"
+   5          #include "fx2regs.h"
+   6          #include "fx2sdly.h"             // Define _IFREQ and _CFREQ above this #include
+   7          //#include "gpif.h"
+   8          #include "my.h"
+   9          //#include "reg51.h"
+  10          //-----------------------------------------------------------------------------
+  11          // ≥£¡ø∂®“Â,”√”⁄Õ¨≤Ω∫Õ—” ±¥¶¿Ì
+  12          //-----------------------------------------------------------------------------
+  13          #define DELAY_COUNT   0x9248*8L  // Delay for 8 sec at 24Mhz, 4 sec at 48
+  14          #define _IFREQ  48000            // IFCLK constant for Synchronization Delay
+  15          #define _CFREQ  48000            // CLKOUT constant for Synchronization Delay
+  16          #define   min(a,b) (((a)<(b))?(a):(b))
+  17          #define   max(a,b) (((a)>(b))?(a):(b))
+  18          
+  19          
+  20            // Registers which require a synchronization delay, see section 15.14
+  21            // FIFORESET        FIFOPINPOLAR
+  22            // INPKTEND         OUTPKTEND
+  23            // EPxBCH:L         REVCTL
+  24            // GPIFTCB3         GPIFTCB2
+  25            // GPIFTCB1         GPIFTCB0
+  26            // EPxFIFOPFH:L     EPxAUTOINLENH:L
+  27            // EPxFIFOCFG       EPxGPIFFLGSEL
+  28            // PINFLAGSxx       EPxFIFOIRQ
+  29            // EPxFIFOIE        GPIFIRQ
+  30            // GPIFIE           GPIFADRH:L
+  31            // UDMACRCH:L       EPxGPIFTRIG
+  32            // GPIFTRIG
+  33            
+  34            // Note: The pre-REVE EPxGPIFTCH/L register are affected, as well...
+  35            //      ...these have been replaced by GPIFTC[B3:B0] registers
+  36            
+  37          //-----------------------------------------------------------------------------
+  38          // »´æ÷±‰¡ø Global Variables
+  39          //-----------------------------------------------------------------------------
+  40          volatile BOOL   GotSUD;
+  41          BOOL    Rwuen;
+  42          BOOL    Selfpwr;
+  43          volatile BOOL   Sleep;          // Sleep mode enable flag
+  44          
+  45          WORD    pDeviceDscr;                    // Pointer to Device Descriptor; Descriptors may be moved
+  46          WORD    pDeviceQualDscr;
+  47          WORD    pHighSpeedConfigDscr;
+  48          WORD    pFullSpeedConfigDscr;   
+  49          WORD    pConfigDscr;
+  50          WORD    pOtherConfigDscr;   
+  51          WORD    pStringDscr;
+  52          
+  53          BOOL    DB_Addr;                                //TPM Dual Byte Address stat
+  54          BYTE    I2C_Addr;                               //TPM I2C address
+  55          
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 2   
+
+  56          
+  57          //◊‘∂®“Â±‰¡ø**************
+  58          BYTE            GP_State ;                      //CTS◊¥Ã¨
+  59          BYTE            GP_Model ;                      //CTSª˙–Õ
+  60          
+  61          BYTE            X_Mot_State ;           //X_µÁª˙◊¥Ã¨
+  62          WORD            X_Timer_ip ;            //X_µÁª˙µƒ ±≥£ ˝÷∏’Î
+  63          WORD            X_Timer_Add ;           //X_µÁª˙µƒº”ÀŸ≤Ω ˝
+  64          BYTE            X_Speed_Time_H ;        //X_µÁª˙‘»ÀŸ ±≥£ ˝
+  65          BYTE            X_Speed_Time_L ;        //X_µÁª˙‘»ÀŸ ±≥£ ˝
+  66          WORD            X_Mot_Run_Len ;         //X_µÁª˙‘»ÀŸ‘À––≤Ω ˝
+  67          WORD            X_Print_speed ;         //X_µÁª˙¥Ú”°ÀŸ∂»
+  68          WORD            X_Print_Pos     ;               //X_µÁª˙∆ ºŒª“∆
+  69          WORD            X_Print_Len ;           //X_µÁª˙ ‰≥ˆ––≥Ã
+  70          
+  71          BYTE            Y_Mot_State ;           //Y_µÁª˙◊¥Ã¨
+  72          BYTE            Y_Timer_ip ;            //Y_µÁª˙µƒ ±≥£ ˝÷∏’Î
+  73          WORD            Y_Mot_Run_Len ;         //Y_µÁª˙‘»ÀŸ‘À––≤Ω ˝
+  74          WORD            Y_Print_Feed ;          //Y_µÁª˙ ‰≥ˆ––æ‡
+  75          
+  76          BYTE            Laser_Test_Lamp ;       //Laser≤‚ ‘Laser÷∏ æ
+  77          WORD            Laser_Plus_Time ;       //Laser≤‚ ‘ ±≥£ ˝,πÿ±’ ±º‰
+  78          
+  79          WORD            Manage_Time ;           //CPUπ‹¿Ìº∆ ˝∆˜
+  80          unsigned int            ADJ_RAM_Addr ;          //ADJ RAM µÿ÷∑
+  81          
+  82          
+  83          
+  84          //bit                   Indic_Flash ;           //º§π‚±Í≥ﬂ «∑Ò…¡∂Ø
+  85          bit                     Dir_Mode ;                      //∑ΩœÚƒ£ Ω:0:µ•,1:À´œÚ ‰≥ˆ
+  86          bit                     RAM_OK ;                        //–– ˝æ›◊º±∏∫√ø…“‘ ‰≥ˆ
+  87          bit                     RAM_Null ;                      //ø’ ˝æ›
+  88          bit                     RAM_SELECT ;            //RAM—°‘Ò
+  89          bit                     Print_Dir  ;            //¥Ú”°∑ΩœÚ
+  90          bit                     Print_End  ;            //¥Ú”°Ω· ¯
+  91          //bit                   Warm_State ;            //‘§»»◊¥Ã¨
+  92          //bit                   Temp_Select ;           //Œ¬∂»ºÏ≤‚—°‘Ò 0:ƒ⁄≤ø
+  93          
+  94          //----------------FPGA ˝æ›ø⁄--------------------
+  95          extern xdata BYTE       FPGA_Port ;     //FPGA ˝æ›Ω”ø⁄
+  96          
+  97          //----------------÷–∂œÃ¯◊™µÿ÷∑---------------------
+  98          void Exter_Int_0(void) ;                //Õ‚≤ø÷–∂œ0
+  99          
+ 100          void Exter_Int_1(void) ;                //Õ‚≤ø÷–∂œ1
+ 101          
+ 102          void Timer0_Int_0(void) ;               
+ 103          
+ 104          void Timer1_Int_0(void) ;
+ 105          
+ 106          void Timer2_Int_0(void) ;
+ 107          
+ 108          void Set_GpifCounter( unsigned long ) ;
+ 109          
+ 110          
+ 111          //-----------------------------------------------------------------------------
+ 112          // Prototypes ∂®“Â∫Ø ˝
+ 113          //-----------------------------------------------------------------------------
+ 114          void    EEPROMWrite(WORD addr, BYTE length, BYTE xdata *buf); //TPM EEPROM Write
+ 115          //void  EEPROMWriteByte(WORD addr, BYTE value);
+ 116          void    EEPROMRead(WORD addr, BYTE length, BYTE xdata *buf);  //TPM EEPROM Read
+ 117          //BYTE  EEPROMReadByte(WORD addr );
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 3   
+
+ 118          
+ 119          void    SetupCommand(void);
+ 120          void    TD_Init(void);
+ 121          void    TD_Poll(void);
+ 122          BOOL    TD_Suspend(void);
+ 123          BOOL    TD_Resume(void);
+ 124          
+ 125          
+ 126          BOOL    X_MOT_Move( BOOL X_Dir, WORD X_Speed_Time, WORD X_Len ) ;       //X_µÁª˙“∆∂Ø≥§∂»
+ 127          void    X_MOT_Stop( void ) ;                                                                            //X_µÁª˙Õ£÷π
+ 128          BOOL    X_MOT_Reset( void ) ;                                                                           //X_µÁª˙∏¥Œª
+ 129          
+ 130          BOOL    Y_MOT_Move( BOOL Y_Dir, WORD Y_Len ) ;                                          //Y_µÁª˙“∆∂Ø≥§∂»
+ 131          void    Y_MOT_Stop( void ) ;                                                                            //Y_µÁª˙Õ£÷π
+ 132          BOOL    Y_MOT_Reset( void ) ;                                                                           //Y_µÁª˙∏¥Œª
+ 133          
+ 134          void    FPGA_Write( BYTE FPGA_Com , BYTE FPGA_data_1 , BYTE FPGA_data_2 ,BYTE FPGA_data_3 ) ;   //FPGA_Write:¥
+             -Æ–––¥»Î
+ 135          //void  FPGA_WR_Out( BYTE FPGA_data ) ;                                                         //FPGA_¥Æ–– ‰≥ˆ ˝æ›
+ 136          //BYTE  FPGA_Read( void ) ;                                                                                     //FPGA_Read:¥Æ––∂¡»Î
+ 137          //BOOL  FPGA_Check(void) ;                                                                                      //FPGA_◊‘ºÏ
+ 138          
+ 139          void    Laser_Plus_Set( WORD lTimer ) ;                                                         //lTimer£∫¬ˆ≥Âπÿ±’ ±≥£ ˝£¨ lTimer= 0 £∫Ω· ¯¬ˆ≥Â≤‚ ‘
+ 140          //void  Laser_Check( void ) ;                                                                           //Laser_◊‘ºÏ
+ 141          
+ 142          BOOL    Encoder_Check(void) ;                                                                           //Encoder_◊‘ºÏ
+ 143          DWORD   Encoder_Read( void ) ;                                                                          //Encoderπ‚’§∂¡»°
+ 144          
+ 145          WORD    Temp_Read( BOOL Temp_Sel ) ;                                                            //TempŒ¬∂»∂¡»°
+ 146          BOOL    DS18B20_Reset( void ) ;                                                                         //DS18B20_Reset∏¥Œª
+ 147          void    DS18B20_Write( BYTE DS_Data ) ;                                                         //DS18B20_Write◊÷Ω⁄–¥
+ 148          BYTE    DS18B20_Read( void ) ;                                                                          //DS18B20_Read◊÷Ω⁄∂¡
+ 149          void    DS18B20_Out( BOOL OUT_TP ) ;                                                            //DS18B20∂Àø⁄–¥
+ 150          BOOL    DS18B20_In( void ) ;                                                                            //DS18B20∂Àø⁄∂¡
+ 151          
+ 152          void    Delay_us( BYTE T_us ) ;                                                                         //—” ±N x us ,◊Ó¥Û255us
+ 153          
+ 154          //BOOL  Ram_Check(void) ;                                                                                       //RAM_◊‘ºÏ
+ 155          
+ 156          void    System_Check( void ) ;                                                                          //System_◊‘ºÏ
+ 157          void    CPU_FPGA_Int( void ) ;                                                                          //CPU_FPGA≥ı ºªØ
+ 158          
+ 159          //-------------------------------------
+ 160          BOOL    DR_SetConfiguration(void);
+ 161          BOOL    DR_GetConfiguration(void);
+ 162          BOOL    DR_SetInterface(void);
+ 163          BOOL    DR_GetInterface(void);
+ 164          BOOL    DR_ClearFeature(void);
+ 165          BOOL    DR_SetFeature(void);
+ 166          BOOL    DR_VendorCmnd(void);
+ 167          
+ 168          // this table is used by the epcs macro 
+ 169          const char code  EPCS_Offset_Lookup_Table[] =
+ 170          {
+ 171             0,    // EP1OUT
+ 172             1,    // EP1IN
+ 173             2,    // EP2OUT
+ 174             2,    // EP2IN
+ 175             3,    // EP4OUT
+ 176             3,    // EP4IN
+ 177             4,    // EP6OUT
+ 178             4,    // EP6IN
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 4   
+
+ 179             5,    // EP8OUT
+ 180             5,    // EP8IN
+ 181          };
+ 182          
+ 183          // macro for generating the address of an endpoint's control and status register (EPnCS)
+ 184          #define epcs(EP) (EPCS_Offset_Lookup_Table[(EP & 0x7E) | (EP > 128)] + 0xE6A1)
+ 185          
+ 186          //------------------÷˜≥Ã–Ú-------------------------
+ 187          void main(void)
+ 188          {
+ 189   1      
+ 190   1              //≥ı ºªØ±‰¡ø
+ 191   1         
+ 192   1              Sleep = FALSE;               // ÀØ√ﬂƒ£ Ω≤ª πƒ‹
+ 193   1              Rwuen = FALSE;               // ‘∂≥ÃªΩ–—≤ª πƒ‹
+ 194   1              Selfpwr = TRUE;              // »Ù≤…”√◊‹œﬂπ©µÁŒ™Flash,Õ‚Ω”µÁ‘¥Œ™TRUE
+ 195   1              GotSUD = FALSE;              // «ÂUSB«Î«Û±Í÷æ
+ 196   1      
+ 197   1      
+ 198   1              TD_Init();              //USB≥ı ºªØœµÕ≥≈‰÷√
+ 199   1      
+ 200   1         // The following section of code is used to relocate the descriptor table. 
+ 201   1         // Since the SUDPTRH and SUDPTRL are assigned the address of the descriptor 
+ 202   1         // table, the descriptor table must be located in on-part memory.
+ 203   1         // The 4K demo tools locate all code sections in external memory.
+ 204   1         // The descriptor table is relocated by the frameworks ONLY if it is found 
+ 205   1              //Ω´…Ë±∏√Ë ˆ∑˚£¨ÀŸ¬ ≈‰÷√√Ë ˆ∑˚∫Õ…Ë±∏œ‡πÿ√Ë ˆ–≈œ¢µ˜»Îƒ⁄¥Ê
+ 206   1              pDeviceDscr = (WORD)&DeviceDscr;
+ 207   1              pDeviceQualDscr = (WORD)&DeviceQualDscr;
+ 208   1              pHighSpeedConfigDscr = (WORD)&HighSpeedConfigDscr;
+ 209   1              pFullSpeedConfigDscr = (WORD)&FullSpeedConfigDscr;
+ 210   1              pStringDscr = (WORD)&StringDscr;
+ 211   1      
+ 212   1              EZUSB_IRQ_ENABLE();                             // USB÷–∂œ πƒ‹            
+ 213   1      
+ 214   1              EZUSB_ENABLE_RSMIRQ();                          // ªΩ–—÷–∂œ πƒ‹            
+ 215   1         
+ 216   1              INTSETUP |= (bmAV2EN | bmAV4EN);        // Enable INT 2 & 4 autovectoring
+ 217   1      
+ 218   1      //      USBIE |= bmSUDAV | bmSUTOK | bmSUSP | bmURES | bmHSGRANT;       // Enable selected interrupts
+ 219   1              USBIE |= bmSUDAV | bmSUTOK | bmURES | bmHSGRANT;        // Enable selected interrupts
+ 220   1      
+ 221   1              EA = 1;                                         //8051÷–∂œ πƒ‹
+ 222   1      
+ 223   1      //#ifndef NO_RENUM
+ 224   1      
+ 225   1          // Renumerate if necessary.  Do this by checking the renum bit.  If it
+ 226   1          // is already set, there is no need to renumerate.  The renum bit will
+ 227   1          // already be set if this firmware was loaded from an eeprom.
+ 228   1              if(!(USBCS & bmRENUM))  
+ 229   1                      EZUSB_Discon(TRUE);                             // renumerate÷ÿ–¬√∂æŸ
+ 230   1      //#endif
+ 231   1      
+ 232   1          // unconditionally re-connect.  If we loaded from eeprom we are
+ 233   1          // disconnected and need to connect.  If we just renumerated this
+ 234   1          // is not necessary but doesn't hurt anything
+ 235   1              USBCS &=~bmDISCON;                                      //÷ÿ–¬Ω®¡¢¡¨Ω” 
+ 236   1         
+ 237   1              CKCON = (CKCON&(~bmSTRETCH)) | FW_STRETCH_VALUE;        // Set stretch to 0 (after renumeration)
+ 238   1      
+ 239   1              // clear the Sleep flag.
+ 240   1          Sleep = FALSE;
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 5   
+
+ 241   1      
+ 242   1      //**********ø™ º********
+ 243   1      //--------≤Œ ˝≥ı ºªØ--------
+ 244   1              CPU_FPGA_Int() ;
+ 245   1      
+ 246   1      //--------◊‘ºÏ--------
+ 247   1      
+ 248   1              GP_Model = 0 ;                                          //…Ë∂®ª˙–Õ
+ 249   1      
+ 250   1      /*
+ 251   1      //≤‚ ‘
+ 252   1      while(TRUE)              
+ 253   1      {
+ 254   1              Delay_us( 200 ) ;
+ 255   1              Laser_Mode = ~Laser_Mode ;
+ 256   1      }
+ 257   1      //≤‚ ‘Ω· ¯
+ 258   1      */
+ 259   1      
+ 260   1      
+ 261   1      //      System_Check() ;                                        //◊‘ºÏ
+ 262   1      
+ 263   1      
+ 264   1      //--------◊¥Ã¨œ‘ æ--------
+ 265   1              FPGA_Write( COM_LED_Check, GP_State, 0, 0 ) ;   //FPGA_LEDœ‘ æ◊¥Ã¨
+ 266   1      
+ 267   1      
+ 268   1      //********—≠ª∑ø™ º∂‘¥´ ‰»ŒŒÒ¥¶¿Ì********
+ 269   1              while(TRUE)              
+ 270   1              {
+ 271   2      
+ 272   2      //------∂Àµ„0 USB«Î«Û
+ 273   2                      if(GotSUD)                                              //≈–∂œ∂Àµ„0 «∑Ò”–USB«Î«Û            
+ 274   2                      {
+ 275   3                              SetupCommand();                         //»Ù”–«Î«Û£¨Ω¯»Î«Î«Û¥¶¿Ì         
+ 276   3                              GotSUD = FALSE;            
+ 277   3                      }
+ 278   2      
+ 279   2            // Poll User Device
+ 280   2            // NOTE: Idle mode stops the processor clock.  There are only two
+ 281   2            // ways out of idle mode, the WAKEUP pin, and detection of the USB
+ 282   2            // resume state on the USB bus.  The timers will stop and the
+ 283   2            // processor will not wake up on any other interrupts.
+ 284   2      
+ 285   2      /*
+ 286   2              if (Sleep)
+ 287   2              {
+ 288   2                      if(TD_Suspend())
+ 289   2                  { 
+ 290   2                      Sleep = FALSE;            // Clear the "go to sleep" flag.  Do it here to prevent any race c
+             -ondition between wakeup and the next sleep.
+ 291   2                      do
+ 292   2                      {
+ 293   2                              EZUSB_Susp();         // Place processor in idle mode.
+ 294   2                      }
+ 295   2                      while(!Rwuen && EZUSB_EXTWAKEUP());
+ 296   2                      // Must continue to go back into suspend if the host has disabled remote wakeup
+ 297   2                      // *and* the wakeup was caused by the external wakeup pin.
+ 298   2                      
+ 299   2                   // 8051 activity will resume here due to USB bus or Wakeup# pin activity.
+ 300   2                      EZUSB_Resume();   // If source is the Wakeup# pin, signal the host to Resume.      
+ 301   2                      TD_Resume();
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 6   
+
+ 302   2                      }   
+ 303   2              }
+ 304   2      */
+ 305   2      
+ 306   2      /*
+ 307   2      //-----∂Àµ„2 ˝æ›¥¶¿Ì°£…Ë±∏ø’œ– ±÷ÿ∏¥µ˜”√π¶ƒ‹
+ 308   2                      if( GPIFTRIG & 0x80 )              // if GPIF interface IDLE
+ 309   2                      {
+ 310   2                      if ( !( EP24FIFOFLGS & 0x02 )) // if there's a packet in the peripheral domain for EP2
+ 311   2                      {
+ 312   2                                      SYNCDELAY;
+ 313   2                              GPIFTCB1 = EP2FIFOBCH;     // setup transaction count with number of bytes in the EP2 FIFO
+ 314   2                              SYNCDELAY;
+ 315   2                              GPIFTCB0 = EP2FIFOBCL;
+ 316   2                              SYNCDELAY;
+ 317   2                              GPIFTRIG = GPIF_EP2;       // launch GPIF FIFO WRITE Transaction from EP2 FIFO
+ 318   2                              SYNCDELAY;
+ 319   2                      }
+ 320   2                      }
+ 321   2      //To use the Transaction Counter for FIFO °∞x°±, load GPIFTCB3:0 with the desired number of transactions
+ 322   2      //(1 to 4,294,967,295). When a FIFO-Read or -Write waveform is triggered on that FIFO, the
+ 323   2      //GPIF will transfer the specified number of bytes (or words, if WORDWIDE = 1) automatically.
+ 324   2      */
+ 325   2      
+ 326   2      //------ƒ⁄≤øπ‹¿Ì--------
+ 327   2                      Manage_Time++ ;         //π‹¿Ìº∆ ˝∆˜+1
+ 328   2      
+ 329   2                      //CPUπ§◊˜LED÷∏ æ£¨◊¥Ã¨LED
+ 330   2                      if( Manage_Time == 0 )          
+ 331   2                      {
+ 332   3                              Led_CPU = ~ Led_CPU ;                                   //LED: CPUπ§◊˜÷∏ æ
+ 333   3      
+ 334   3      /*
+ 335   3                              if( Indic_Flash == TRUE )                           //±Í≥ﬂ…¡∂Ø?
+ 336   3                              {       
+ 337   3                                      if( PortE_OUT & Indic_Red )                     // «∑ÒREDº§π‚÷∏ æ√=1
+ 338   3                                              PortE_OUT &= ~Indic_Red ;               //REDº§π‚÷∏ æ¡¡=0
+ 339   3                                      else
+ 340   3                                              PortE_OUT |=  Indic_Red ;               //REDº§π‚÷∏ æ√=1
+ 341   3      
+ 342   3                              }
+ 343   3      */
+ 344   3                      }
+ 345   2              }
+ 346   1      }
+ 347          
+ 348          
+ 349          //********«Î«Û¥¶¿Ì********
+ 350          void SetupCommand(void)
+ 351          {
+ 352   1         void   *dscr_ptr;
+ 353   1      
+ 354   1         //≈–∂œ«Î«Û¿‡–Õ
+ 355   1         switch(SETUPDAT[1])
+ 356   1         {
+ 357   2                      //********“‘œ¬Œ™±Í◊ºUSB…Ë±∏«Î«Û
+ 358   2            case SC_GET_DESCRIPTOR:                                                   //*√Ë ˆ–≈œ¢«Î«Û
+ 359   2                              switch(SETUPDAT[3])         
+ 360   2                              {
+ 361   3                                      case GD_DEVICE:                                         //**…Ë±∏–≈œ¢ Device
+ 362   3                                              SUDPTRH = MSB(pDeviceDscr);
+ 363   3                                              SUDPTRL = LSB(pDeviceDscr);
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 7   
+
+ 364   3                                              break;
+ 365   3                                      case GD_DEVICE_QUALIFIER:                               //**…Ë±∏∆∑÷  Device Qualifier
+ 366   3                                              SUDPTRH = MSB(pDeviceQualDscr);
+ 367   3                                              SUDPTRL = LSB(pDeviceQualDscr);
+ 368   3                                              break;
+ 369   3                                      case GD_CONFIGURATION:                                  //**≈‰÷√–≈œ¢ Configuration
+ 370   3                                              SUDPTRH = MSB(pConfigDscr);
+ 371   3                                              SUDPTRL = LSB(pConfigDscr);
+ 372   3                                              break;
+ 373   3                                      case GD_OTHER_SPEED_CONFIGURATION:      //**ÀŸ∂»∫Õ∆‰À˚≈‰÷√ Other Speed Configuration
+ 374   3                                              SUDPTRH = MSB(pOtherConfigDscr);
+ 375   3                                              SUDPTRL = LSB(pOtherConfigDscr);
+ 376   3                                              break;
+ 377   3                                      case GD_STRING:                                         //**ø™∑¢…Ã∂®“Â√Ë ˆ∑˚ String
+ 378   3                                              if(dscr_ptr = (void *)EZUSB_GetStringDscr(SETUPDAT[2]))
+ 379   3                                              {
+ 380   4                                                      SUDPTRH = MSB(dscr_ptr);
+ 381   4                                                      SUDPTRL = LSB(dscr_ptr);
+ 382   4                                              }
+ 383   3                                              else 
+ 384   3                                                      EZUSB_STALL_EP0();                      //***¥ÌŒÛ«Î«Û,Stall End Point 0
+ 385   3                                              break;
+ 386   3                                      default:                                                //**¥ÌŒÛ«Î«Û,Stall End Point 0
+ 387   3                                              EZUSB_STALL_EP0();
+ 388   3                              }
+ 389   2               break;
+ 390   2                      case SC_GET_INTERFACE:                                                  //*∂¡»°Ω”ø⁄–≈œ¢«Î«Û Get Interface
+ 391   2                              DR_GetInterface();
+ 392   2               break;
+ 393   2                      case SC_SET_INTERFACE:                                                  //*…Ë÷√Ω”ø⁄–≈œ¢«Î«Û Set Interface
+ 394   2                              DR_SetInterface();
+ 395   2                              break;
+ 396   2            case SC_SET_CONFIGURATION:                                                //*…Ë÷√≈‰÷√–≈œ¢«Î«Û Set Configuration
+ 397   2               DR_SetConfiguration();
+ 398   2               break;
+ 399   2            case SC_GET_CONFIGURATION:                                                //*∂¡»°≈‰÷√–≈œ¢«Î«Û Get Configuration
+ 400   2               DR_GetConfiguration();
+ 401   2               break;
+ 402   2            case SC_GET_STATUS:                                                               //*∂¡»°◊¥Ã¨«Î«ÛGet Status
+ 403   2                              switch(SETUPDAT[0])
+ 404   2                              {
+ 405   3                                      case GS_DEVICE:                                                 //**…Ë±∏◊¥Ã¨Device
+ 406   3                                              EP0BUF[0] = ((BYTE)Rwuen << 1) | (BYTE)Selfpwr;
+ 407   3                                              EP0BUF[1] = 0;
+ 408   3                                              EP0BCH = 0;
+ 409   3                                              EP0BCL = 2;
+ 410   3                                              break;
+ 411   3                                      case GS_INTERFACE:                                              //**Ω”ø⁄◊¥Ã¨ Interface
+ 412   3                                              EP0BUF[0] = 0;
+ 413   3                                              EP0BUF[1] = 0;
+ 414   3                                              EP0BCH = 0;
+ 415   3                                              EP0BCL = 2;
+ 416   3                                              break;
+ 417   3                                      case GS_ENDPOINT:                                               //**∂Àµ„◊¥Ã¨ End Point
+ 418   3                                              EP0BUF[0] = *(BYTE xdata *) epcs(SETUPDAT[4]) & bmEPSTALL;
+ 419   3                                              EP0BUF[1] = 0;
+ 420   3                                              EP0BCH = 0;
+ 421   3                                              EP0BCL = 2;
+ 422   3                                              break;
+ 423   3                  default:                                                            //**Invalid Command
+ 424   3                     EZUSB_STALL_EP0();                                               //Stall End Point 0
+ 425   3                  }
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 8   
+
+ 426   2               break;
+ 427   2            case SC_CLEAR_FEATURE:                                                    //*«Â≥˝Ãÿ–‘«Î«Û Clear Feature
+ 428   2               switch(SETUPDAT[0])
+ 429   2               {
+ 430   3                  case FT_DEVICE:                                             //**Device
+ 431   3                     if(SETUPDAT[2] == 1)
+ 432   3                        Rwuen = FALSE;                                        //**Disable Remote Wakeup
+ 433   3                     else
+ 434   3                        EZUSB_STALL_EP0();                                    //**Stall End Point 0
+ 435   3                     break;
+ 436   3                  case FT_ENDPOINT:                                           //**End Point
+ 437   3                     if(SETUPDAT[2] == 0)
+ 438   3                     {
+ 439   4                        *(BYTE xdata *) epcs(SETUPDAT[4]) &= ~bmEPSTALL;
+ 440   4                        EZUSB_RESET_DATA_TOGGLE( SETUPDAT[4] );
+ 441   4                     }
+ 442   3                     else
+ 443   3                        EZUSB_STALL_EP0();                                    //***Stall End Point 0
+ 444   3                     break;
+ 445   3               }
+ 446   2              break;
+ 447   2            case SC_SET_FEATURE:                                                              //*…Ë÷√Ãÿ–‘«Î«Û Set Feature
+ 448   2               switch(SETUPDAT[0])
+ 449   2               {
+ 450   3                  case FT_DEVICE:                                             //**Device
+ 451   3                     if(SETUPDAT[2] == 1)
+ 452   3                        Rwuen = TRUE;                                         //***Enable Remote Wakeup
+ 453   3                     else if(SETUPDAT[2] == 2)
+ 454   3                        // Set Feature Test Mode.  The core handles this request.  However, it is
+ 455   3                        // necessary for the firmware to complete the handshake phase of the
+ 456   3                        // control transfer before the chip will enter test mode.  It is also
+ 457   3                        // necessary for FX2 to be physically disconnected (D+ and D-)
+ 458   3                        // from the host before it will enter test mode.
+ 459   3                        break;
+ 460   3                     else
+ 461   3                        EZUSB_STALL_EP0();   //***Stall End Point 0
+ 462   3                     break;
+ 463   3                  case FT_ENDPOINT:           //**End Point
+ 464   3                     *(BYTE xdata *) epcs(SETUPDAT[4]) |= bmEPSTALL;
+ 465   3                     break;
+ 466   3               }
+ 467   2              break;
+ 468   2            default:                                  // *Invalid Command
+ 469   2      
+ 470   2              //********…œ ˆæ˘Œ™±Í◊ºUSB…Ë±∏«Î«Û£¨“‘œ¬Œ™”√ªß◊‘∂®“Â«Î«Û¥¶¿Ì
+ 471   2               if(DR_VendorCmnd())
+ 472   2                  EZUSB_STALL_EP0();            //¥ÌŒÛ«Î«Û, Stall End Point 0
+ 473   2         }
+ 474   1      
+ 475   1         // Acknowledge handshake phase of device request
+ 476   1         EP0CS |= bmHSNAK;
+ 477   1      }
+ 478          
+ 479          // Wake-up interrupt handler
+ 480          void resume_isr(void) interrupt WKUP_VECT
+ 481          {
+ 482   1         EZUSB_CLEAR_RSMIRQ();
+ 483   1      }
+ 484          
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 9   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 187
+                                           ; SOURCE LINE # 188
+                                           ; SOURCE LINE # 192
+0000 C200        R     CLR     Sleep
+                                           ; SOURCE LINE # 193
+0002 C200        R     CLR     Rwuen
+                                           ; SOURCE LINE # 194
+0004 D200        R     SETB    Selfpwr
+                                           ; SOURCE LINE # 195
+0006 C200        R     CLR     GotSUD
+                                           ; SOURCE LINE # 198
+0008 120000      E     LCALL   TD_Init
+                                           ; SOURCE LINE # 206
+000B 750000      E     MOV     pDeviceDscr,#HIGH DeviceDscr
+000E 750000      E     MOV     pDeviceDscr+01H,#LOW DeviceDscr
+                                           ; SOURCE LINE # 207
+0011 750000      E     MOV     pDeviceQualDscr,#HIGH DeviceQualDscr
+0014 750000      E     MOV     pDeviceQualDscr+01H,#LOW DeviceQualDscr
+                                           ; SOURCE LINE # 208
+0017 750000      E     MOV     pHighSpeedConfigDscr,#HIGH HighSpeedConfigDscr
+001A 750000      E     MOV     pHighSpeedConfigDscr+01H,#LOW HighSpeedConfigDscr
+                                           ; SOURCE LINE # 209
+001D 750000      E     MOV     pFullSpeedConfigDscr,#HIGH FullSpeedConfigDscr
+0020 750000      E     MOV     pFullSpeedConfigDscr+01H,#LOW FullSpeedConfigDscr
+                                           ; SOURCE LINE # 210
+0023 750000      E     MOV     pStringDscr,#HIGH StringDscr
+0026 750000      E     MOV     pStringDscr+01H,#LOW StringDscr
+                                           ; SOURCE LINE # 212
+0029 D2E8              SETB    EUSB
+                                           ; SOURCE LINE # 214
+002B 43D820            ORL     EICON,#020H
+                                           ; SOURCE LINE # 216
+002E 900000      E     MOV     DPTR,#INTSETUP
+0031 E0                MOVX    A,@DPTR
+0032 4409              ORL     A,#09H
+0034 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 219
+0035 900000      E     MOV     DPTR,#USBIE
+0038 E0                MOVX    A,@DPTR
+0039 4435              ORL     A,#035H
+003B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 221
+003C D2AF              SETB    EA
+                                           ; SOURCE LINE # 228
+003E 900000      E     MOV     DPTR,#USBCS
+0041 E0                MOVX    A,@DPTR
+0042 20E105            JB      ACC.1,?C0001
+                                           ; SOURCE LINE # 229
+0045 D200        E     SETB    ?EZUSB_Discon?BIT
+0047 120000      E     LCALL   EZUSB_Discon
+004A         ?C0001:
+                                           ; SOURCE LINE # 235
+004A 900000      E     MOV     DPTR,#USBCS
+004D E0                MOVX    A,@DPTR
+004E 54F7              ANL     A,#0F7H
+0050 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 237
+0051 538EF8            ANL     CKCON,#0F8H
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 10  
+
+                                           ; SOURCE LINE # 240
+0054 C200        R     CLR     Sleep
+                                           ; SOURCE LINE # 244
+0056 120000      E     LCALL   CPU_FPGA_Int
+                                           ; SOURCE LINE # 248
+0059 E4                CLR     A
+005A F500        R     MOV     GP_Model,A
+                                           ; SOURCE LINE # 265
+005C F500        E     MOV     ?_FPGA_Write?BYTE+03H,A
+005E FB                MOV     R3,A
+005F AD00        R     MOV     R5,GP_State
+0061 7F0F              MOV     R7,#0FH
+0063 120000      E     LCALL   _FPGA_Write
+0066         ?C0002:
+                                           ; SOURCE LINE # 269
+                                           ; SOURCE LINE # 270
+                                           ; SOURCE LINE # 273
+0066 300005      R     JNB     GotSUD,?C0004
+                                           ; SOURCE LINE # 274
+                                           ; SOURCE LINE # 275
+0069 120000      R     LCALL   SetupCommand
+                                           ; SOURCE LINE # 276
+006C C200        R     CLR     GotSUD
+                                           ; SOURCE LINE # 277
+006E         ?C0004:
+                                           ; SOURCE LINE # 327
+006E 0500        R     INC     Manage_Time+01H
+0070 E500        R     MOV     A,Manage_Time+01H
+0072 7002              JNZ     ?C0054
+0074 0500        R     INC     Manage_Time
+0076         ?C0054:
+                                           ; SOURCE LINE # 330
+0076 4500        R     ORL     A,Manage_Time
+0078 70EC              JNZ     ?C0002
+                                           ; SOURCE LINE # 331
+                                           ; SOURCE LINE # 332
+007A B283              CPL     Led_CPU
+                                           ; SOURCE LINE # 344
+                                           ; SOURCE LINE # 345
+007C 80E8              SJMP    ?C0002
+             ; FUNCTION main (END)
+
+             ; FUNCTION SetupCommand (BEGIN)
+                                           ; SOURCE LINE # 350
+                                           ; SOURCE LINE # 351
+                                           ; SOURCE LINE # 355
+0000 900000      E     MOV     DPTR,#SETUPDAT+01H
+0003 E0                MOVX    A,@DPTR
+0004 7003              JNZ     $ + 5H
+0006 020000      R     LJMP    ?C0022
+0009 14                DEC     A
+000A 7003              JNZ     $ + 5H
+000C 020000      R     LJMP    ?C0030
+000F 24FE              ADD     A,#0FEH
+0011 7003              JNZ     $ + 5H
+0013 020000      R     LJMP    ?C0040
+0016 24FB              ADD     A,#0FBH
+0018 7003              JNZ     $ + 5H
+001A 020000      R     LJMP    ?C0021
+001D 14                DEC     A
+001E 607A              JZ      ?C0020
+0020 14                DEC     A
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 11  
+
+0021 606B              JZ      ?C0018
+0023 14                DEC     A
+0024 606E              JZ      ?C0019
+0026 2405              ADD     A,#05H
+0028 6003              JZ      $ + 5H
+002A 020000      R     LJMP    ?C0050
+                                           ; SOURCE LINE # 356
+                                           ; SOURCE LINE # 358
+002D         ?C0008:
+                                           ; SOURCE LINE # 359
+002D 900000      E     MOV     DPTR,#SETUPDAT+03H
+0030 E0                MOVX    A,@DPTR
+0031 24FE              ADD     A,#0FEH
+0033 6022              JZ      ?C0012
+0035 14                DEC     A
+0036 6033              JZ      ?C0014
+0038 24FD              ADD     A,#0FDH
+003A 6011              JZ      ?C0011
+003C 14                DEC     A
+003D 6022              JZ      ?C0013
+003F 2406              ADD     A,#06H
+0041 7048              JNZ     ?C0017
+                                           ; SOURCE LINE # 360
+                                           ; SOURCE LINE # 361
+0043         ?C0010:
+                                           ; SOURCE LINE # 362
+0043 E500        R     MOV     A,pDeviceDscr
+0045 900000      E     MOV     DPTR,#SUDPTRH
+0048 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 363
+0049 E500        R     MOV     A,pDeviceDscr+01H
+                                           ; SOURCE LINE # 364
+004B 8037              SJMP    ?C0058
+                                           ; SOURCE LINE # 365
+004D         ?C0011:
+                                           ; SOURCE LINE # 366
+004D E500        R     MOV     A,pDeviceQualDscr
+004F 900000      E     MOV     DPTR,#SUDPTRH
+0052 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 367
+0053 E500        R     MOV     A,pDeviceQualDscr+01H
+0055         ?C0055:
+                                           ; SOURCE LINE # 368
+0055 802D              SJMP    ?C0058
+                                           ; SOURCE LINE # 369
+0057         ?C0012:
+                                           ; SOURCE LINE # 370
+0057 E500        R     MOV     A,pConfigDscr
+0059 900000      E     MOV     DPTR,#SUDPTRH
+005C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 371
+005D E500        R     MOV     A,pConfigDscr+01H
+005F         ?C0056:
+                                           ; SOURCE LINE # 372
+005F 8023              SJMP    ?C0058
+                                           ; SOURCE LINE # 373
+0061         ?C0013:
+                                           ; SOURCE LINE # 374
+0061 E500        R     MOV     A,pOtherConfigDscr
+0063 900000      E     MOV     DPTR,#SUDPTRH
+0066 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 375
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 12  
+
+0067 E500        R     MOV     A,pOtherConfigDscr+01H
+0069         ?C0057:
+                                           ; SOURCE LINE # 376
+0069 8019              SJMP    ?C0058
+                                           ; SOURCE LINE # 377
+006B         ?C0014:
+                                           ; SOURCE LINE # 378
+006B 900000      E     MOV     DPTR,#SETUPDAT+02H
+006E E0                MOVX    A,@DPTR
+006F FF                MOV     R7,A
+0070 120000      E     LCALL   _EZUSB_GetStringDscr
+0073 AA06              MOV     R2,AR6
+0075 A907              MOV     R1,AR7
+0077 7B01              MOV     R3,#01H
+;---- Variable 'dscr_ptr' assigned to Register 'R1/R2/R3' ----
+0079 EA                MOV     A,R2
+007A 49                ORL     A,R1
+007B 4B                ORL     A,R3
+007C 600D              JZ      ?C0059
+                                           ; SOURCE LINE # 379
+                                           ; SOURCE LINE # 380
+007E EE                MOV     A,R6
+007F 900000      E     MOV     DPTR,#SUDPTRH
+0082 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 381
+0083 EF                MOV     A,R7
+0084         ?C0058:
+0084 900000      E     MOV     DPTR,#SUDPTRL
+0087 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 382
+0088 020000      R     LJMP    ?C0007
+                                           ; SOURCE LINE # 386
+008B         ?C0017:
+                                           ; SOURCE LINE # 387
+008B         ?C0059:
+                                           ; SOURCE LINE # 388
+                                           ; SOURCE LINE # 389
+008B 020000      R     LJMP    ?C0066
+                                           ; SOURCE LINE # 390
+008E         ?C0018:
+                                           ; SOURCE LINE # 391
+008E 120000      E     LCALL   DR_GetInterface
+                                           ; SOURCE LINE # 392
+0091 020000      R     LJMP    ?C0007
+                                           ; SOURCE LINE # 393
+0094         ?C0019:
+                                           ; SOURCE LINE # 394
+0094 120000      E     LCALL   DR_SetInterface
+                                           ; SOURCE LINE # 395
+0097 020000      R     LJMP    ?C0007
+                                           ; SOURCE LINE # 396
+009A         ?C0020:
+                                           ; SOURCE LINE # 397
+009A 120000      E     LCALL   DR_SetConfiguration
+                                           ; SOURCE LINE # 398
+009D 020000      R     LJMP    ?C0007
+                                           ; SOURCE LINE # 399
+00A0         ?C0021:
+                                           ; SOURCE LINE # 400
+00A0 120000      E     LCALL   DR_GetConfiguration
+                                           ; SOURCE LINE # 401
+00A3 020000      R     LJMP    ?C0007
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 13  
+
+                                           ; SOURCE LINE # 402
+00A6         ?C0022:
+                                           ; SOURCE LINE # 403
+00A6 900000      E     MOV     DPTR,#SETUPDAT
+00A9 E0                MOVX    A,@DPTR
+00AA 247F              ADD     A,#07FH
+00AC 6015              JZ      ?C0025
+00AE 14                DEC     A
+00AF 6019              JZ      ?C0026
+00B1 2402              ADD     A,#02H
+00B3 7063              JNZ     ?C0029
+                                           ; SOURCE LINE # 404
+                                           ; SOURCE LINE # 405
+00B5         ?C0024:
+                                           ; SOURCE LINE # 406
+00B5 A200        R     MOV     C,Rwuen
+00B7 E4                CLR     A
+00B8 33                RLC     A
+00B9 25E0              ADD     A,ACC
+00BB FF                MOV     R7,A
+00BC A200        R     MOV     C,Selfpwr
+00BE E4                CLR     A
+00BF 33                RLC     A
+00C0 4F                ORL     A,R7
+                                           ; SOURCE LINE # 407
+                                           ; SOURCE LINE # 408
+                                           ; SOURCE LINE # 409
+                                           ; SOURCE LINE # 410
+00C1 8041              SJMP    ?C0061
+                                           ; SOURCE LINE # 411
+00C3         ?C0025:
+                                           ; SOURCE LINE # 412
+00C3 E4                CLR     A
+00C4 900000      E     MOV     DPTR,#EP0BUF
+00C7 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 413
+                                           ; SOURCE LINE # 414
+                                           ; SOURCE LINE # 415
+                                           ; SOURCE LINE # 416
+00C8 803F              SJMP    ?C0062
+                                           ; SOURCE LINE # 417
+00CA         ?C0026:
+                                           ; SOURCE LINE # 418
+00CA 900000      E     MOV     DPTR,#SETUPDAT+04H
+00CD E0                MOVX    A,@DPTR
+00CE 547E              ANL     A,#07EH
+00D0 FF                MOV     R7,A
+00D1 7E00              MOV     R6,#00H
+00D3 E0                MOVX    A,@DPTR
+00D4 D3                SETB    C
+00D5 9480              SUBB    A,#080H
+00D7 7C00              MOV     R4,#00H
+00D9 4004              JC      ?C0027
+00DB 7D01              MOV     R5,#01H
+00DD 8002              SJMP    ?C0028
+00DF         ?C0027:
+00DF 7D00              MOV     R5,#00H
+00E1         ?C0028:
+00E1 EC                MOV     A,R4
+00E2 4E                ORL     A,R6
+00E3 FE                MOV     R6,A
+00E4 ED                MOV     A,R5
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 14  
+
+00E5 4F                ORL     A,R7
+00E6 2400        R     ADD     A,#LOW EPCS_Offset_Lookup_Table
+00E8 F582              MOV     DPL,A
+00EA 7400        R     MOV     A,#HIGH EPCS_Offset_Lookup_Table
+00EC 3E                ADDC    A,R6
+00ED F583              MOV     DPH,A
+00EF E4                CLR     A
+00F0 93                MOVC    A,@A+DPTR
+00F1 FF                MOV     R7,A
+00F2 33                RLC     A
+00F3 95E0              SUBB    A,ACC
+00F5 FE                MOV     R6,A
+00F6 EF                MOV     A,R7
+00F7 24A1              ADD     A,#0A1H
+00F9 FF                MOV     R7,A
+00FA EE                MOV     A,R6
+00FB 34E6              ADDC    A,#0E6H
+00FD 8F82              MOV     DPL,R7
+00FF F583              MOV     DPH,A
+0101 E0                MOVX    A,@DPTR
+0102 5401              ANL     A,#01H
+0104         ?C0061:
+0104 900000      E     MOV     DPTR,#EP0BUF
+0107 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 419
+0108 E4                CLR     A
+0109         ?C0062:
+0109 A3                INC     DPTR
+010A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 420
+010B 900000      E     MOV     DPTR,#EP0BCH
+010E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 421
+010F 900000      E     MOV     DPTR,#EP0BCL
+0112 7402              MOV     A,#02H
+0114 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 422
+0115 020000      R     LJMP    ?C0007
+                                           ; SOURCE LINE # 423
+0118         ?C0029:
+                                           ; SOURCE LINE # 424
+0118         ?C0060:
+                                           ; SOURCE LINE # 425
+                                           ; SOURCE LINE # 426
+0118 020000      R     LJMP    ?C0066
+                                           ; SOURCE LINE # 427
+011B         ?C0030:
+                                           ; SOURCE LINE # 428
+011B 900000      E     MOV     DPTR,#SETUPDAT
+011E E0                MOVX    A,@DPTR
+011F 24FE              ADD     A,#0FEH
+0121 6016              JZ      ?C0035
+0123 2402              ADD     A,#02H
+0125 6003              JZ      $ + 5H
+0127 020000      R     LJMP    ?C0007
+                                           ; SOURCE LINE # 429
+                                           ; SOURCE LINE # 430
+012A         ?C0032:
+                                           ; SOURCE LINE # 431
+012A 900000      E     MOV     DPTR,#SETUPDAT+02H
+012D E0                MOVX    A,@DPTR
+012E B40105            CJNE    A,#01H,?C0033
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 15  
+
+                                           ; SOURCE LINE # 432
+0131 C200        R     CLR     Rwuen
+0133 020000      R     LJMP    ?C0007
+0136         ?C0033:
+                                           ; SOURCE LINE # 434
+0136         ?C0063:
+                                           ; SOURCE LINE # 435
+0136 020000      R     LJMP    ?C0066
+                                           ; SOURCE LINE # 436
+0139         ?C0035:
+                                           ; SOURCE LINE # 437
+0139 900000      E     MOV     DPTR,#SETUPDAT+02H
+013C E0                MOVX    A,@DPTR
+013D 7055              JNZ     ?C0036
+                                           ; SOURCE LINE # 438
+                                           ; SOURCE LINE # 439
+013F 900000      E     MOV     DPTR,#SETUPDAT+04H
+0142 E0                MOVX    A,@DPTR
+0143 547E              ANL     A,#07EH
+0145 FF                MOV     R7,A
+0146 7E00              MOV     R6,#00H
+0148 E0                MOVX    A,@DPTR
+0149 D3                SETB    C
+014A 9480              SUBB    A,#080H
+014C 7C00              MOV     R4,#00H
+014E 4004              JC      ?C0037
+0150 7D01              MOV     R5,#01H
+0152 8002              SJMP    ?C0038
+0154         ?C0037:
+0154 7D00              MOV     R5,#00H
+0156         ?C0038:
+0156 EC                MOV     A,R4
+0157 4E                ORL     A,R6
+0158 FE                MOV     R6,A
+0159 ED                MOV     A,R5
+015A 4F                ORL     A,R7
+015B 2400        R     ADD     A,#LOW EPCS_Offset_Lookup_Table
+015D F582              MOV     DPL,A
+015F 7400        R     MOV     A,#HIGH EPCS_Offset_Lookup_Table
+0161 3E                ADDC    A,R6
+0162 F583              MOV     DPH,A
+0164 E4                CLR     A
+0165 93                MOVC    A,@A+DPTR
+0166 FF                MOV     R7,A
+0167 33                RLC     A
+0168 95E0              SUBB    A,ACC
+016A FE                MOV     R6,A
+016B EF                MOV     A,R7
+016C 24A1              ADD     A,#0A1H
+016E FF                MOV     R7,A
+016F EE                MOV     A,R6
+0170 34E6              ADDC    A,#0E6H
+0172 8F82              MOV     DPL,R7
+0174 F583              MOV     DPH,A
+0176 E0                MOVX    A,@DPTR
+0177 54FE              ANL     A,#0FEH
+0179 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 440
+017A 900000      E     MOV     DPTR,#SETUPDAT+04H
+017D E0                MOVX    A,@DPTR
+017E 5480              ANL     A,#080H
+0180 13                RRC     A
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 16  
+
+0181 13                RRC     A
+0182 13                RRC     A
+0183 541F              ANL     A,#01FH
+0185 FF                MOV     R7,A
+0186 E0                MOVX    A,@DPTR
+0187 540F              ANL     A,#0FH
+0189 2F                ADD     A,R7
+018A 900000      E     MOV     DPTR,#TOGCTL
+018D F0                MOVX    @DPTR,A
+018E E0                MOVX    A,@DPTR
+018F 4420              ORL     A,#020H
+0191 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 441
+0192 8069              SJMP    ?C0007
+0194         ?C0036:
+                                           ; SOURCE LINE # 443
+0194         ?C0064:
+                                           ; SOURCE LINE # 444
+0194 8060              SJMP    ?C0066
+                                           ; SOURCE LINE # 445
+                                           ; SOURCE LINE # 446
+                                           ; SOURCE LINE # 447
+0196         ?C0040:
+                                           ; SOURCE LINE # 448
+0196 900000      E     MOV     DPTR,#SETUPDAT
+0199 E0                MOVX    A,@DPTR
+019A 24FE              ADD     A,#0FEH
+019C 601A              JZ      ?C0047
+019E 2402              ADD     A,#02H
+01A0 705B              JNZ     ?C0007
+                                           ; SOURCE LINE # 449
+                                           ; SOURCE LINE # 450
+01A2         ?C0042:
+                                           ; SOURCE LINE # 451
+01A2 900000      E     MOV     DPTR,#SETUPDAT+02H
+01A5 E0                MOVX    A,@DPTR
+01A6 B40104            CJNE    A,#01H,?C0043
+                                           ; SOURCE LINE # 452
+01A9 D200        R     SETB    Rwuen
+01AB 8050              SJMP    ?C0007
+01AD         ?C0043:
+                                           ; SOURCE LINE # 453
+01AD 900000      E     MOV     DPTR,#SETUPDAT+02H
+01B0 E0                MOVX    A,@DPTR
+01B1 B40202            CJNE    A,#02H,?C0045
+                                           ; SOURCE LINE # 459
+01B4 8047              SJMP    ?C0007
+01B6         ?C0045:
+                                           ; SOURCE LINE # 461
+01B6         ?C0065:
+                                           ; SOURCE LINE # 462
+01B6 803E              SJMP    ?C0066
+                                           ; SOURCE LINE # 463
+01B8         ?C0047:
+                                           ; SOURCE LINE # 464
+01B8 900000      E     MOV     DPTR,#SETUPDAT+04H
+01BB E0                MOVX    A,@DPTR
+01BC 547E              ANL     A,#07EH
+01BE FF                MOV     R7,A
+01BF 7E00              MOV     R6,#00H
+01C1 E0                MOVX    A,@DPTR
+01C2 D3                SETB    C
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 17  
+
+01C3 9480              SUBB    A,#080H
+01C5 7C00              MOV     R4,#00H
+01C7 4004              JC      ?C0048
+01C9 7D01              MOV     R5,#01H
+01CB 8002              SJMP    ?C0049
+01CD         ?C0048:
+01CD 7D00              MOV     R5,#00H
+01CF         ?C0049:
+01CF EC                MOV     A,R4
+01D0 4E                ORL     A,R6
+01D1 FE                MOV     R6,A
+01D2 ED                MOV     A,R5
+01D3 4F                ORL     A,R7
+01D4 2400        R     ADD     A,#LOW EPCS_Offset_Lookup_Table
+01D6 F582              MOV     DPL,A
+01D8 7400        R     MOV     A,#HIGH EPCS_Offset_Lookup_Table
+01DA 3E                ADDC    A,R6
+01DB F583              MOV     DPH,A
+01DD E4                CLR     A
+01DE 93                MOVC    A,@A+DPTR
+01DF FF                MOV     R7,A
+01E0 33                RLC     A
+01E1 95E0              SUBB    A,ACC
+01E3 FE                MOV     R6,A
+01E4 EF                MOV     A,R7
+01E5 24A1              ADD     A,#0A1H
+01E7 FF                MOV     R7,A
+01E8 EE                MOV     A,R6
+01E9 34E6              ADDC    A,#0E6H
+01EB 8F82              MOV     DPL,R7
+01ED F583              MOV     DPH,A
+                                           ; SOURCE LINE # 465
+01EF 8008              SJMP    ?C0067
+                                           ; SOURCE LINE # 466
+                                           ; SOURCE LINE # 467
+                                           ; SOURCE LINE # 468
+01F1         ?C0050:
+                                           ; SOURCE LINE # 471
+01F1 120000      E     LCALL   DR_VendorCmnd
+01F4 5007              JNC     ?C0007
+                                           ; SOURCE LINE # 472
+01F6         ?C0066:
+01F6 900000      E     MOV     DPTR,#EP0CS
+01F9         ?C0067:
+01F9 E0                MOVX    A,@DPTR
+01FA 4401              ORL     A,#01H
+01FC F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 473
+01FD         ?C0007:
+                                           ; SOURCE LINE # 476
+01FD 900000      E     MOV     DPTR,#EP0CS
+0200 E0                MOVX    A,@DPTR
+0201 4480              ORL     A,#080H
+0203 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 477
+0204 22                RET     
+             ; FUNCTION SetupCommand (END)
+
+             ; FUNCTION resume_isr (BEGIN)
+                                           ; SOURCE LINE # 480
+                                           ; SOURCE LINE # 482
+0000 53D8EF            ANL     EICON,#0EFH
+C51 COMPILER V9.05   MAIN                                                                  05/17/2018 16:27:00 PAGE 18  
+
+                                           ; SOURCE LINE # 483
+0003 32                RETI    
+             ; FUNCTION resume_isr (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    647    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     45    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =     11    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

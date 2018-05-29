@@ -1,0 +1,232 @@
+A51 MACRO ASSEMBLER  INTJMPTB                                                             05/17/2018 16:27:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02a
+OBJECT MODULE PLACED IN INTJmpTb.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE INTJmpTb.a51 SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     NAME     INTJmpTb
+                       2     
+                       3     extrn code (Exter_Int_0, Timer0_Int_0, Exter_Int_1, Timer1_Int_0, Timer2_Int_0)
+                       4     
+                       5     extrn code (ISR_Sudav, ISR_Sof, ISR_Sutok, ISR_Susp, ISR_Ures, ISR_Highspeed, ISR_Ep0ack, I
+                             SR_Stub, ISR_Ep0in, ISR_Ep0out, ISR_Ep1in, ISR_Ep1out, ISR_Ep2inout, ISR_Ep4inout, ISR_Ep6inout, ISR_Ep8inout,ISR_Ibn)
+                       6     
+                       7     extrn code (ISR_Ep0pingnak, ISR_Ep1pingnak, ISR_Ep2pingnak, ISR_Ep4pingnak, ISR_Ep6pingnak,
+                              ISR_Ep8pingnak, ISR_Errorlimit, ISR_Ep2piderror, ISR_Ep4piderror, ISR_Ep6piderror, ISR_Ep8piderror, ISR_Ep2pflag)
+                       8     
+                       9     extrn code (ISR_Ep4pflag, ISR_Ep6pflag, ISR_Ep8pflag, ISR_Ep2eflag, ISR_Ep4eflag, ISR_Ep6ef
+                             lag, ISR_Ep8eflag, ISR_Ep2fflag, ISR_Ep4fflag, ISR_Ep6fflag, ISR_Ep8fflag, ISR_GpifComplete, ISR_GpifWaveform)
+                      10     
+                      11     public      USB_Int2AutoVector, USB_Int4AutoVector, USB_Jump_Table
+                      12     
+                      13     
+                      14     ;------------------------------------------------------------------------------
+                      15     ; Interrupt Vectors
+                      16     ;------------------------------------------------------------------------------
+                      17     
+                      18     
+----                  19             CSEG   AT 03H
+0003 020000   F       20             ljmp     Exter_Int_0    ;外部中断0,     
+                      21     
+----                  22             CSEG   AT 0bH
+000B 020000   F       23         ljmp         Timer0_Int_0   ;定时器0中断,   
+                      24     
+----                  25             CSEG   AT 13H
+0013 020000   F       26             ljmp     Exter_Int_1    ;外部中断1,
+                      27     
+----                  28             CSEG   AT 1bH           
+001B 020000   F       29             ljmp     Timer1_Int_0   ;定时器1中断,
+                      30     
+----                  31             CSEG   AT 2bH
+002B 020000   F       32             ljmp     Timer2_Int_0   ;定时器2中断,
+                      33     
+----                  34             CSEG   AT 43H
+  0045                35     USB_Int2AutoVector   equ   $ + 2
+0043 020000   F       36             ljmp   USB_Jump_Table   ; Autovector will replace byte 45
+                      37     
+----                  38             CSEG   AT 53H
+  0055                39     USB_Int4AutoVector   equ   $ + 2
+0053 020000   F       40             ljmp   USB_Jump_Table   ; Autovector will replace byte 55
+                      41          
+                      42         
+                      43             
+                      44     ;------------------------------------------------------------------------------
+                      45     ; USB Jump Table
+                      46     ;------------------------------------------------------------------------------
+                      47     ?PR?USB_JUMP_TABLE?USBJT   segment   code page   ; Place jump table on a page boundary
+----                  48           RSEG    ?PR?USB_JUMP_TABLE?USBJT   ; autovector jump table
+0000                  49     USB_Jump_Table:   
+0000 020000   F       50           ljmp  ISR_Sudav            ;(00) Setup Data Available
+0003 00               51           db   0
+0004 020000   F       52           ljmp  ISR_Sof              ;(04) Start of Frame
+0007 00               53           db   0
+0008 020000   F       54           ljmp  ISR_Sutok            ;(08) Setup Data Loading
+000B 00               55           db   0
+A51 MACRO ASSEMBLER  INTJMPTB                                                             05/17/2018 16:27:01 PAGE     2
+
+000C 020000   F       56           ljmp  ISR_Susp             ;(0C) Global Suspend
+000F 00               57           db    0
+0010 020000   F       58           ljmp  ISR_Ures             ;(10) USB Reset     
+0013 00               59           db   0
+0014 020000   F       60           ljmp  ISR_Highspeed        ;(14) Entered High Speed
+0017 00               61           db   0
+0018 020000   F       62           ljmp  ISR_Ep0ack           ;(18) EP0ACK
+001B 00               63           db   0
+001C 020000   F       64           ljmp  ISR_Stub             ;(1C) Reserved
+001F 00               65           db   0
+0020 020000   F       66           ljmp  ISR_Ep0in            ;(20) EP0 In
+0023 00               67           db   0
+0024 020000   F       68           ljmp  ISR_Ep0out           ;(24) EP0 Out
+0027 00               69           db   0
+0028 020000   F       70           ljmp  ISR_Ep1in            ;(28) EP1 In
+002B 00               71           db   0
+002C 020000   F       72           ljmp  ISR_Ep1out           ;(2C) EP1 Out
+002F 00               73           db   0
+0030 020000   F       74           ljmp  ISR_Ep2inout         ;(30) EP2 In/Out
+0033 00               75           db   0
+0034 020000   F       76           ljmp  ISR_Ep4inout         ;(34) EP4 In/Out
+0037 00               77           db   0
+0038 020000   F       78           ljmp  ISR_Ep6inout         ;(38) EP6 In/Out
+003B 00               79           db   0
+003C 020000   F       80           ljmp  ISR_Ep8inout         ;(3C) EP8 In/Out
+003F 00               81           db   0
+0040 020000   F       82           ljmp  ISR_Ibn              ;(40) IBN
+0043 00               83           db   0
+0044 020000   F       84           ljmp  ISR_Stub             ;(44) Reserved
+0047 00               85           db   0
+0048 020000   F       86           ljmp  ISR_Ep0pingnak       ;(48) EP0 PING NAK
+004B 00               87           db   0
+004C 020000   F       88           ljmp  ISR_Ep1pingnak       ;(4C) EP1 PING NAK
+004F 00               89           db   0
+0050 020000   F       90           ljmp  ISR_Ep2pingnak       ;(50) EP2 PING NAK
+0053 00               91           db   0
+0054 020000   F       92           ljmp  ISR_Ep4pingnak       ;(54) EP4 PING NAK
+0057 00               93           db   0
+0058 020000   F       94           ljmp  ISR_Ep6pingnak       ;(58) EP6 PING NAK
+005B 00               95           db   0
+005C 020000   F       96           ljmp  ISR_Ep8pingnak       ;(5C) EP8 PING NAK
+005F 00               97           db   0
+0060 020000   F       98           ljmp  ISR_Errorlimit       ;(60) Error Limit
+0063 00               99           db   0
+0064 020000   F      100           ljmp  ISR_Stub             ;(64) Reserved
+0067 00              101           db   0
+0068 020000   F      102           ljmp  ISR_Stub             ;(68) Reserved
+006B 00              103           db   0
+006C 020000   F      104           ljmp  ISR_Stub             ;(6C) Reserved
+006F 00              105           db   0
+0070 020000   F      106           ljmp  ISR_Ep2piderror      ;(70) EP2 ISO Pid Sequence Error
+0073 00              107           db   0
+0074 020000   F      108           ljmp  ISR_Ep4piderror      ;(74) EP4 ISO Pid Sequence Error
+0077 00              109           db   0
+0078 020000   F      110           ljmp  ISR_Ep6piderror      ;(78) EP6 ISO Pid Sequence Error
+007B 00              111           db   0
+007C 020000   F      112           ljmp  ISR_Ep8piderror      ;(7C) EP8 ISO Pid Sequence Error
+007F 00              113           db   0
+                     114     ;INT4_Jump_Table
+0080 020000   F      115           ljmp  ISR_Ep2pflag         ;(80) EP2 Programmable Flag
+0083 00              116           db   0
+0084 020000   F      117           ljmp  ISR_Ep4pflag         ;(84) EP4 Programmable Flag
+0087 00              118           db   0
+0088 020000   F      119           ljmp  ISR_Ep6pflag         ;(88) EP6 Programmable Flag
+008B 00              120           db   0
+008C 020000   F      121           ljmp  ISR_Ep8pflag         ;(8C) EP8 Programmable Flag
+A51 MACRO ASSEMBLER  INTJMPTB                                                             05/17/2018 16:27:01 PAGE     3
+
+008F 00              122           db   0
+0090 020000   F      123           ljmp  ISR_Ep2eflag         ;(90) EP2 Empty Flag
+0093 00              124           db   0
+0094 020000   F      125           ljmp  ISR_Ep4eflag         ;(94) EP4 Empty Flag
+0097 00              126           db   0
+0098 020000   F      127           ljmp  ISR_Ep6eflag         ;(98) EP6 Empty Flag
+009B 00              128           db   0
+009C 020000   F      129           ljmp  ISR_Ep8eflag         ;(9C) EP8 Empty Flag
+009F 00              130           db   0
+00A0 020000   F      131           ljmp  ISR_Ep2fflag         ;(A0) EP2 Full Flag
+00A3 00              132           db   0
+00A4 020000   F      133           ljmp  ISR_Ep4fflag         ;(A4) EP4 Full Flag
+00A7 00              134           db   0
+00A8 020000   F      135           ljmp  ISR_Ep6fflag         ;(A8) EP6 Full Flag
+00AB 00              136           db   0
+00AC 020000   F      137           ljmp  ISR_Ep8fflag         ;(AC) EP8 Full Flag
+00AF 00              138           db   0
+00B0 020000   F      139           ljmp  ISR_GpifComplete     ;(B0) GPIF Operation Complete
+00B3 00              140           db   0
+00B4 020000   F      141           ljmp  ISR_GpifWaveform     ;(B4) GPIF Waveform
+00B7 00              142           db   0
+                     143     
+                     144     ;Timer_0_Int:
+                     145     ;         reti
+                     146     
+                     147     
+                     148     
+                     149           end
+                             
+A51 MACRO ASSEMBLER  INTJMPTB                                                             05/17/2018 16:27:01 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                   T Y P E  V A L U E   ATTRIBUTES
+
+?PR?USB_JUMP_TABLE?USBJT  C SEG    00B8H       REL=PAGE
+EXTER_INT_0. . . . . . .  C ADDR   -----       EXT
+EXTER_INT_1. . . . . . .  C ADDR   -----       EXT
+INTJMPTB . . . . . . . .  N NUMB   -----       
+ISR_EP0ACK . . . . . . .  C ADDR   -----       EXT
+ISR_EP0IN. . . . . . . .  C ADDR   -----       EXT
+ISR_EP0OUT . . . . . . .  C ADDR   -----       EXT
+ISR_EP0PINGNAK . . . . .  C ADDR   -----       EXT
+ISR_EP1IN. . . . . . . .  C ADDR   -----       EXT
+ISR_EP1OUT . . . . . . .  C ADDR   -----       EXT
+ISR_EP1PINGNAK . . . . .  C ADDR   -----       EXT
+ISR_EP2EFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP2FFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP2INOUT . . . . . .  C ADDR   -----       EXT
+ISR_EP2PFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP2PIDERROR. . . . .  C ADDR   -----       EXT
+ISR_EP2PINGNAK . . . . .  C ADDR   -----       EXT
+ISR_EP4EFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP4FFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP4INOUT . . . . . .  C ADDR   -----       EXT
+ISR_EP4PFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP4PIDERROR. . . . .  C ADDR   -----       EXT
+ISR_EP4PINGNAK . . . . .  C ADDR   -----       EXT
+ISR_EP6EFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP6FFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP6INOUT . . . . . .  C ADDR   -----       EXT
+ISR_EP6PFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP6PIDERROR. . . . .  C ADDR   -----       EXT
+ISR_EP6PINGNAK . . . . .  C ADDR   -----       EXT
+ISR_EP8EFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP8FFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP8INOUT . . . . . .  C ADDR   -----       EXT
+ISR_EP8PFLAG . . . . . .  C ADDR   -----       EXT
+ISR_EP8PIDERROR. . . . .  C ADDR   -----       EXT
+ISR_EP8PINGNAK . . . . .  C ADDR   -----       EXT
+ISR_ERRORLIMIT . . . . .  C ADDR   -----       EXT
+ISR_GPIFCOMPLETE . . . .  C ADDR   -----       EXT
+ISR_GPIFWAVEFORM . . . .  C ADDR   -----       EXT
+ISR_HIGHSPEED. . . . . .  C ADDR   -----       EXT
+ISR_IBN. . . . . . . . .  C ADDR   -----       EXT
+ISR_SOF. . . . . . . . .  C ADDR   -----       EXT
+ISR_STUB . . . . . . . .  C ADDR   -----       EXT
+ISR_SUDAV. . . . . . . .  C ADDR   -----       EXT
+ISR_SUSP . . . . . . . .  C ADDR   -----       EXT
+ISR_SUTOK. . . . . . . .  C ADDR   -----       EXT
+ISR_URES . . . . . . . .  C ADDR   -----       EXT
+TIMER0_INT_0 . . . . . .  C ADDR   -----       EXT
+TIMER1_INT_0 . . . . . .  C ADDR   -----       EXT
+TIMER2_INT_0 . . . . . .  C ADDR   -----       EXT
+USB_INT2AUTOVECTOR . . .  N NUMB   0045H   A   
+USB_INT4AUTOVECTOR . . .  N NUMB   0055H   A   
+USB_JUMP_TABLE . . . . .  C ADDR   0000H   R   SEG=?PR?USB_JUMP_TABLE?USBJT
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
