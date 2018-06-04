@@ -1,0 +1,326 @@
+ -- Copyright (C) 1991-2011 Altera Corporation
+ -- Your use of Altera Corporation's design tools, logic functions 
+ -- and other software and tools, and its AMPP partner logic 
+ -- functions, and any output files from any of the foregoing 
+ -- (including device programming or simulation files), and any 
+ -- associated documentation or information are expressly subject 
+ -- to the terms and conditions of the Altera Program License 
+ -- Subscription Agreement, Altera MegaCore Function License 
+ -- Agreement, or other applicable license agreement, including, 
+ -- without limitation, that your use is for the sole purpose of 
+ -- programming logic devices manufactured by Altera and sold by 
+ -- Altera or its authorized distributors.  Please refer to the 
+ -- applicable agreement for further details.
+ -- 
+ -- This is a Quartus II output file. It is for reporting purposes only, and is
+ -- not intended for use as a Quartus II input file. This file cannot be used
+ -- to make Quartus II pin assignments - for instructions on how to make pin
+ -- assignments, please see Quartus II help.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- NC            : No Connect. This pin has no internal connection to the device.
+ -- DNU           : Do Not Use. This pin MUST NOT be connected.
+ -- VCCINT        : Dedicated power pin, which MUST be connected to VCC  (1.2V).
+ -- VCCIO         : Dedicated power pin, which MUST be connected to VCC
+ --                 of its bank.
+ --					Bank 1:		3.3V
+ --					Bank 2:		3.3V
+ --					Bank 3:		3.3V
+ --					Bank 4:		3.3V
+ --					Bank 5:		3.3V
+ --					Bank 6:		3.3V
+ --					Bank 7:		3.3V
+ --					Bank 8:		3.3V
+ -- GND           : Dedicated ground pin. Dedicated GND pins MUST be connected to GND.
+ --					It can also be used to report unused dedicated pins. The connection
+ --					on the board for unused dedicated pins depends on whether this will
+ --					be used in a future design. One example is device migration. When
+ --					using device migration, refer to the device pin-tables. If it is a
+ --					GND pin in the pin table or if it will not be used in a future design
+ --					for another purpose the it MUST be connected to GND. If it is an unused
+ --					dedicated pin, then it can be connected to a valid signal on the board
+ --					(low, high, or toggling) if that signal is required for a different
+ --					revision of the design.
+ -- GND+          : Unused input pin. It can also be used to report unused dual-purpose pins.
+ --					This pin should be connected to GND. It may also be connected  to a
+ --					valid signal  on the board  (low, high, or toggling)  if that signal
+ --					is required for a different revision of the design.
+ -- GND*          : Unused  I/O  pin. Connect each pin marked GND* directly to GND
+ --           	    or leave it unconnected.
+ -- RESERVED      : Unused I/O pin, which MUST be left unconnected.
+ -- RESERVED_INPUT    : Pin is tri-stated and should be connected to the board.
+ -- RESERVED_INPUT_WITH_WEAK_PULLUP    : Pin is tri-stated with internal weak pull-up resistor.
+ -- RESERVED_INPUT_WITH_BUS_HOLD       : Pin is tri-stated with bus-hold circuitry.
+ -- RESERVED_OUTPUT_DRIVEN_HIGH        : Pin is output driven high.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- Pin directions (input, output or bidir) are based on device operating in user mode.
+ ---------------------------------------------------------------------------------
+
+Quartus II 64-Bit Version 11.0 Build 208 07/03/2011 Service Pack 1 SJ Full Version
+CHIP  "USB2_SDRAM_Project"  ASSIGNED TO AN: EP4CE10F17C8
+
+Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
+-------------------------------------------------------------------------------------------------------------
+VCCIO8                       : A1        : power  :                   : 3.3V    : 8         :                
+A1[12]                       : A2        : output : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[1]                       : A3        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[3]                       : A4        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[5]                       : A5        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[7]                       : A6        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+WEn1                         : A7        : output : 3.3-V LVTTL       :         : 8         : Y              
+RASn1                        : A8        : output : 3.3-V LVTTL       :         : 8         : Y              
+BA1[0]                       : A9        : output : 3.3-V LVTTL       :         : 7         : Y              
+A1[10]                       : A10       : output : 3.3-V LVTTL       :         : 7         : Y              
+A1[1]                        : A11       : output : 3.3-V LVTTL       :         : 7         : Y              
+A1[3]                        : A12       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Data[5]                : A13       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Data[3]                : A14       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Data[1]                : A15       : output : 3.3-V LVTTL       :         : 7         : Y              
+VCCIO7                       : A16       : power  :                   : 3.3V    : 7         :                
+CKE1                         : B1        : output : 3.3-V LVTTL       :         : 1         : Y              
+GND                          : B2        : gnd    :                   :         :           :                
+DQ1[0]                       : B3        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[2]                       : B4        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[4]                       : B5        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+DQ1[6]                       : B6        : bidir  : 3.3-V LVTTL       :         : 8         : Y              
+LDQM1                        : B7        : output : 3.3-V LVTTL       :         : 8         : Y              
+CASn1                        : B8        : output : 3.3-V LVTTL       :         : 8         : Y              
+CSn1                         : B9        : output : 3.3-V LVTTL       :         : 7         : Y              
+BA1[1]                       : B10       : output : 3.3-V LVTTL       :         : 7         : Y              
+A1[0]                        : B11       : output : 3.3-V LVTTL       :         : 7         : Y              
+A1[2]                        : B12       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Data[4]                : B13       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Data[2]                : B14       : output : 3.3-V LVTTL       :         : 7         : Y              
+GND                          : B15       : gnd    :                   :         :           :                
+Laser_En                     : B16       : output : 3.3-V LVTTL       :         : 6         : Y              
+~ALTERA_ASDO_DATA1~ / RESERVED_INPUT_WITH_WEAK_PULLUP : C1        : input  : 3.3-V LVTTL       :         : 1         : N              
+UDQM1                        : C2        : output : 3.3-V LVTTL       :         : 1         : Y              
+CLK1                         : C3        : output : 3.3-V LVTTL       :         : 8         : Y              
+VCCIO8                       : C4        : power  :                   : 3.3V    : 8         :                
+GND                          : C5        : gnd    :                   :         :           :                
+A1[7]                        : C6        : output : 3.3-V LVTTL       :         : 8         : Y              
+VCCIO8                       : C7        : power  :                   : 3.3V    : 8         :                
+Laser_Data[14]               : C8        : output : 3.3-V LVTTL       :         : 8         : Y              
+Laser_Data[15]               : C9        : output : 3.3-V LVTTL       :         : 7         : Y              
+VCCIO7                       : C10       : power  :                   : 3.3V    : 7         :                
+Laser_Data[12]               : C11       : output : 3.3-V LVTTL       :         : 7         : Y              
+GND                          : C12       : gnd    :                   :         :           :                
+VCCIO7                       : C13       : power  :                   : 3.3V    : 7         :                
+Laser_Data[0]                : C14       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Clk                    : C15       : output : 3.3-V LVTTL       :         : 6         : Y              
+Laser_ST                     : C16       : output : 3.3-V LVTTL       :         : 6         : Y              
+DQ1[8]                       : D1        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
+~ALTERA_FLASH_nCE_nCSO~ / RESERVED_INPUT_WITH_WEAK_PULLUP : D2        : input  : 3.3-V LVTTL       :         : 1         : N              
+A1[11]                       : D3        : output : 3.3-V LVTTL       :         : 8         : Y              
+A1[9]                        : D4        : output : 3.3-V LVTTL       :         : 1         : Y              
+A1[8]                        : D5        : output : 3.3-V LVTTL       :         : 8         : Y              
+A1[6]                        : D6        : output : 3.3-V LVTTL       :         : 8         : Y              
+GND                          : D7        : gnd    :                   :         :           :                
+A1[5]                        : D8        : output : 3.3-V LVTTL       :         : 8         : Y              
+A1[4]                        : D9        : output : 3.3-V LVTTL       :         : 7         : Y              
+GND                          : D10       : gnd    :                   :         :           :                
+Laser_Data[13]               : D11       : output : 3.3-V LVTTL       :         : 7         : Y              
+Laser_Data[10]               : D12       : output : 3.3-V LVTTL       :         : 7         : Y              
+VCCD_PLL2                    : D13       : power  :                   : 1.2V    :           :                
+DATAIN[0]                    : D14       : input  : 3.3-V LVTTL       :         : 7         : Y              
+CPU_RD                       : D15       : input  : 3.3-V LVTTL       :         : 6         : Y              
+CPU_WR                       : D16       : input  : 3.3-V LVTTL       :         : 6         : Y              
+CLK48M                       : E1        : input  : 3.3-V LVTTL       :         : 1         : Y              
+GND                          : E2        : gnd    :                   :         :           :                
+VCCIO1                       : E3        : power  :                   : 3.3V    : 1         :                
+GND                          : E4        : gnd    :                   :         :           :                
+RESERVED_INPUT               : E5        :        :                   :         : 1         :                
+RESERVED_INPUT               : E6        :        :                   :         : 8         :                
+RESERVED_INPUT               : E7        :        :                   :         : 8         :                
+RESERVED_INPUT               : E8        :        :                   :         : 8         :                
+RESERVED_INPUT               : E9        :        :                   :         : 7         :                
+RESERVED_INPUT               : E10       :        :                   :         : 7         :                
+RESERVED_INPUT               : E11       :        :                   :         : 7         :                
+GNDA2                        : E12       : gnd    :                   :         :           :                
+GND                          : E13       : gnd    :                   :         :           :                
+VCCIO6                       : E14       : power  :                   : 3.3V    : 6         :                
+GND+                         : E15       :        :                   :         : 6         :                
+GND+                         : E16       :        :                   :         : 6         :                
+DQ1[10]                      : F1        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
+DQ1[11]                      : F2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
+DQ1[9]                       : F3        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
+nSTATUS                      : F4        :        :                   :         : 1         :                
+RESERVED_INPUT               : F5        :        :                   :         : 1         :                
+RESERVED_INPUT               : F6        :        :                   :         : 8         :                
+RESERVED_INPUT               : F7        :        :                   :         : 8         :                
+RESERVED_INPUT               : F8        :        :                   :         : 8         :                
+RESERVED_INPUT               : F9        :        :                   :         : 7         :                
+RESERVED_INPUT               : F10       :        :                   :         : 7         :                
+Laser_Data[9]                : F11       : output : 3.3-V LVTTL       :         : 7         : Y              
+VCCA2                        : F12       : power  :                   : 2.5V    :           :                
+Laser_Data[8]                : F13       : output : 3.3-V LVTTL       :         : 6         : Y              
+Laser_Data[11]               : F14       : output : 3.3-V LVTTL       :         : 6         : Y              
+DATAIN[1]                    : F15       : input  : 3.3-V LVTTL       :         : 6         : Y              
+DATAIN[2]                    : F16       : input  : 3.3-V LVTTL       :         : 6         : Y              
+DQ1[12]                      : G1        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
+DQ1[13]                      : G2        : bidir  : 3.3-V LVTTL       :         : 1         : Y              
+VCCIO1                       : G3        : power  :                   : 3.3V    : 1         :                
+GND                          : G4        : gnd    :                   :         :           :                
+RESERVED_INPUT               : G5        :        :                   :         : 1         :                
+VCCINT                       : G6        : power  :                   : 1.2V    :           :                
+VCCINT                       : G7        : power  :                   : 1.2V    :           :                
+VCCINT                       : G8        : power  :                   : 1.2V    :           :                
+VCCINT                       : G9        : power  :                   : 1.2V    :           :                
+VCCINT                       : G10       : power  :                   : 1.2V    :           :                
+RESERVED_INPUT               : G11       :        :                   :         : 6         :                
+MSEL2                        : G12       :        :                   :         : 6         :                
+GND                          : G13       : gnd    :                   :         :           :                
+VCCIO6                       : G14       : power  :                   : 3.3V    : 6         :                
+DATAIN[3]                    : G15       : input  : 3.3-V LVTTL       :         : 6         : Y              
+DATAIN[4]                    : G16       : input  : 3.3-V LVTTL       :         : 6         : Y              
+~ALTERA_DCLK~                : H1        : output : 3.3-V LVTTL       :         : 1         : N              
+~ALTERA_DATA0~ / RESERVED_INPUT_WITH_WEAK_PULLUP : H2        : input  : 3.3-V LVTTL       :         : 1         : N              
+TCK                          : H3        : input  :                   :         : 1         :                
+TDI                          : H4        : input  :                   :         : 1         :                
+nCONFIG                      : H5        :        :                   :         : 1         :                
+VCCINT                       : H6        : power  :                   : 1.2V    :           :                
+GND                          : H7        : gnd    :                   :         :           :                
+GND                          : H8        : gnd    :                   :         :           :                
+GND                          : H9        : gnd    :                   :         :           :                
+GND                          : H10       : gnd    :                   :         :           :                
+VCCINT                       : H11       : power  :                   : 1.2V    :           :                
+MSEL1                        : H12       :        :                   :         : 6         :                
+MSEL0                        : H13       :        :                   :         : 6         :                
+CONF_DONE                    : H14       :        :                   :         : 6         :                
+GND                          : H15       : gnd    :                   :         :           :                
+GND                          : H16       : gnd    :                   :         :           :                
+DQ1[14]                      : J1        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+DQ1[15]                      : J2        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+nCE                          : J3        :        :                   :         : 1         :                
+TDO                          : J4        : output :                   :         : 1         :                
+TMS                          : J5        : input  :                   :         : 1         :                
+RESERVED_INPUT               : J6        :        :                   :         : 2         :                
+GND                          : J7        : gnd    :                   :         :           :                
+GND                          : J8        : gnd    :                   :         :           :                
+GND                          : J9        : gnd    :                   :         :           :                
+GND                          : J10       : gnd    :                   :         :           :                
+RESERVED_INPUT               : J11       :        :                   :         : 5         :                
+RESERVED_INPUT               : J12       :        :                   :         : 5         :                
+Laser_Data[7]                : J13       : output : 3.3-V LVTTL       :         : 5         : Y              
+Laser_Data[6]                : J14       : output : 3.3-V LVTTL       :         : 5         : Y              
+DATAIN[5]                    : J15       : input  : 3.3-V LVTTL       :         : 5         : Y              
+DATAIN[6]                    : J16       : input  : 3.3-V LVTTL       :         : 5         : Y              
+Check                        : K1        : output : 3.3-V LVTTL       :         : 2         : Y              
+Encode_B                     : K2        : input  : 3.3-V LVTTL       :         : 2         : Y              
+VCCIO2                       : K3        : power  :                   : 3.3V    : 2         :                
+GND                          : K4        : gnd    :                   :         :           :                
+RESERVED_INPUT               : K5        :        :                   :         : 2         :                
+RESERVED_INPUT               : K6        :        :                   :         : 2         :                
+VCCINT                       : K7        : power  :                   : 1.2V    :           :                
+RESERVED_INPUT               : K8        :        :                   :         : 3         :                
+RESERVED_INPUT               : K9        :        :                   :         : 4         :                
+RESERVED_INPUT               : K10       :        :                   :         : 4         :                
+RESERVED_INPUT               : K11       :        :                   :         : 5         :                
+RESERVED_INPUT               : K12       :        :                   :         : 5         :                
+GND                          : K13       : gnd    :                   :         :           :                
+VCCIO5                       : K14       : power  :                   : 3.3V    : 5         :                
+DATAIN[7]                    : K15       : input  : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[0]                  : K16       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+Encode_A                     : L1        : input  : 3.3-V LVTTL       :         : 2         : Y              
+DQ0[0]                       : L2        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+RESERVED_INPUT               : L3        :        :                   :         : 2         :                
+DQ0[1]                       : L4        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+VCCA1                        : L5        : power  :                   : 2.5V    :           :                
+RESERVED_INPUT               : L6        :        :                   :         : 2         :                
+RESERVED_INPUT               : L7        :        :                   :         : 3         :                
+RESERVED_INPUT               : L8        :        :                   :         : 3         :                
+FLAGB                        : L9        : input  : 3.3-V LVTTL       :         : 4         : Y              
+SLWR                         : L10       : output : 3.3-V LVTTL       :         : 4         : Y              
+SLRD                         : L11       : output : 3.3-V LVTTL       :         : 4         : Y              
+RESERVED_INPUT               : L12       :        :                   :         : 5         :                
+IFCLK                        : L13       : output : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[3]                  : L14       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[1]                  : L15       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[2]                  : L16       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+GND+                         : M1        :        :                   :         : 2         :                
+GND+                         : M2        :        :                   :         : 2         :                
+VCCIO2                       : M3        : power  :                   : 3.3V    : 2         :                
+GND                          : M4        : gnd    :                   :         :           :                
+GNDA1                        : M5        : gnd    :                   :         :           :                
+RESERVED_INPUT               : M6        :        :                   :         : 3         :                
+BA0[0]                       : M7        : output : 3.3-V LVTTL       :         : 3         : Y              
+A0[0]                        : M8        : output : 3.3-V LVTTL       :         : 3         : Y              
+RESERVED_INPUT               : M9        :        :                   :         : 4         :                
+RESERVED_INPUT               : M10       :        :                   :         : 4         :                
+RESERVED_INPUT               : M11       :        :                   :         : 4         :                
+RESERVED_INPUT               : M12       :        :                   :         : 5         :                
+GND                          : M13       : gnd    :                   :         :           :                
+VCCIO5                       : M14       : power  :                   : 3.3V    : 5         :                
+GND+                         : M15       :        :                   :         : 5         :                
+GND+                         : M16       :        :                   :         : 5         :                
+DQ0[3]                       : N1        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+DQ0[5]                       : N2        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+DQ0[2]                       : N3        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+VCCD_PLL1                    : N4        : power  :                   : 1.2V    :           :                
+DQ0[4]                       : N5        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+CSn0                         : N6        : output : 3.3-V LVTTL       :         : 3         : Y              
+GND                          : N7        : gnd    :                   :         :           :                
+BA0[1]                       : N8        : output : 3.3-V LVTTL       :         : 3         : Y              
+A0[10]                       : N9        : output : 3.3-V LVTTL       :         : 4         : Y              
+GND                          : N10       : gnd    :                   :         :           :                
+CPU_Set                      : N11       : input  : 3.3-V LVTTL       :         : 4         : Y              
+FLAGC                        : N12       : input  : 3.3-V LVTTL       :         : 4         : Y              
+RESETn                       : N13       : input  : 3.3-V LVTTL       :         : 5         : Y              
+Laser_On                     : N14       : input  : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[4]                  : N15       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[5]                  : N16       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+DQ0[6]                       : P1        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+DQ0[7]                       : P2        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+CASn0                        : P3        : output : 3.3-V LVTTL       :         : 3         : Y              
+VCCIO3                       : P4        : power  :                   : 3.3V    : 3         :                
+GND                          : P5        : gnd    :                   :         :           :                
+RASn0                        : P6        : output : 3.3-V LVTTL       :         : 3         : Y              
+VCCIO3                       : P7        : power  :                   : 3.3V    : 3         :                
+A0[1]                        : P8        : output : 3.3-V LVTTL       :         : 3         : Y              
+A0[2]                        : P9        : output : 3.3-V LVTTL       :         : 4         : Y              
+VCCIO4                       : P10       : power  :                   : 3.3V    : 4         :                
+A0[3]                        : P11       : output : 3.3-V LVTTL       :         : 4         : Y              
+GND                          : P12       : gnd    :                   :         :           :                
+VCCIO4                       : P13       : power  :                   : 3.3V    : 4         :                
+DATAIN[8]                    : P14       : input  : 3.3-V LVTTL       :         : 4         : Y              
+CPU_Data[6]                  : P15       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+CPU_Data[7]                  : P16       : bidir  : 3.3-V LVTTL       :         : 5         : Y              
+LDQM0                        : R1        : output : 3.3-V LVTTL       :         : 2         : Y              
+GND                          : R2        : gnd    :                   :         :           :                
+DQ0[14]                      : R3        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[12]                      : R4        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[10]                      : R5        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[8]                       : R6        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+CLK0                         : R7        : output : 3.3-V LVTTL       :         : 3         : Y              
+A0[12]                       : R8        : output : 3.3-V LVTTL       :         : 3         : Y              
+A0[9]                        : R9        : output : 3.3-V LVTTL       :         : 4         : Y              
+A0[7]                        : R10       : output : 3.3-V LVTTL       :         : 4         : Y              
+A0[5]                        : R11       : output : 3.3-V LVTTL       :         : 4         : Y              
+DATAIN[15]                   : R12       : input  : 3.3-V LVTTL       :         : 4         : Y              
+DATAIN[13]                   : R13       : input  : 3.3-V LVTTL       :         : 4         : Y              
+DATAIN[11]                   : R14       : input  : 3.3-V LVTTL       :         : 4         : Y              
+GND                          : R15       : gnd    :                   :         :           :                
+DATAIN[9]                    : R16       : input  : 3.3-V LVTTL       :         : 5         : Y              
+VCCIO3                       : T1        : power  :                   : 3.3V    : 3         :                
+WEn0                         : T2        : output : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[15]                      : T3        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[13]                      : T4        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[11]                      : T5        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+DQ0[9]                       : T6        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+UDQM0                        : T7        : output : 3.3-V LVTTL       :         : 3         : Y              
+CKE0                         : T8        : output : 3.3-V LVTTL       :         : 3         : Y              
+A0[11]                       : T9        : output : 3.3-V LVTTL       :         : 4         : Y              
+A0[8]                        : T10       : output : 3.3-V LVTTL       :         : 4         : Y              
+A0[6]                        : T11       : output : 3.3-V LVTTL       :         : 4         : Y              
+A0[4]                        : T12       : output : 3.3-V LVTTL       :         : 4         : Y              
+DATAIN[14]                   : T13       : input  : 3.3-V LVTTL       :         : 4         : Y              
+DATAIN[12]                   : T14       : input  : 3.3-V LVTTL       :         : 4         : Y              
+DATAIN[10]                   : T15       : input  : 3.3-V LVTTL       :         : 4         : Y              
+VCCIO4                       : T16       : power  :                   : 3.3V    : 4         :                

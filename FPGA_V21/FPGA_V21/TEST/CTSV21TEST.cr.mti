@@ -1,0 +1,21 @@
+E:/myfile/CTS1000/FPGA/FPGA_V21/TEST/V21_TEST.vhd {0 {vcom -work work -2002 -explicit -vopt E:/myfile/CTS1000/FPGA/FPGA_V21/TEST/V21_TEST.vhd
+Model Technology ModelSim SE-64 vcom 10.0c Compiler 2011.07 Jul 21 2011
+-- Loading package STANDARD
+** Error: E:/myfile/CTS1000/FPGA/FPGA_V21/TEST/V21_TEST.vhd(1): near "'": syntax error
+
+} {4.0 5.0} {}} E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd {0 {vcom -work work -2002 -explicit -vopt E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd
+Model Technology ModelSim SE-64 vcom 10.0c Compiler 2011.07 Jul 21 2011
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Compiling entity USB2_SDRAM_Project
+-- Compiling architecture RTL of USB2_SDRAM_Project
+** Error: E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd(499): (vcom-1436) Use of non globally static actual (prefix expression) of formal "WCLK" requires VHDL 2008.
+** Error: E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd(501): (vcom-1436) Use of non globally static actual (prefix expression) of formal "WEN" requires VHDL 2008.
+** Error: E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd(515): (vcom-1436) Use of non globally static actual (infix expression) of formal "SDRAMFULL" requires VHDL 2008.
+** Error: E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd(516): (vcom-1436) Use of non globally static actual (infix expression) of formal "SDRAMEMPTY" requires VHDL 2008.
+** Error: E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd(654): VHDL Compiler exiting
+
+} {10.0 15.0} {}}

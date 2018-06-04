@@ -1,0 +1,464 @@
+m255
+K3
+13
+cModel Technology
+Z0 dE:\myfile\CTS1000\FPGA\FPGA_V21\simulation\modelsim
+T_opt
+Z1 V?^K:<boaD_^]<^386m<5d1
+Z2 04 26 23 work usb2_sdram_project_vhd_tst usb2_sdram_project_arch 1
+Z3 =10-507b9d1803c3-5b13051c-236-249c
+Z4 o-quiet -auto_acc_if_foreign -work work +acc
+Z5 n@_opt
+Z6 OL;O;10.0c;49
+Z7 dE:\myfile\CTS1000\FPGA\FPGA_V21\simulation\modelsim
+Eclkgen
+Z8 w1526196168
+Z9 DPx4 ieee 18 std_logic_unsigned 0 22 RYmj;=TK`k=k>D@Cz`zoB3
+Z10 DPx4 ieee 15 std_logic_arith 0 22 4`Y?g_lkdn;7UL9IiJck01
+Z11 DPx3 std 6 textio 0 22 G^o2zK;Vh4eVdKTVo98653
+Z12 DPx4 ieee 14 std_logic_1164 0 22 5=aWaoGZSMWIcH0i^f`XF1
+R7
+Z13 8E:/myfile/CTS1000/FPGA/FPGA_V21/CLKGen.vhd
+Z14 FE:/myfile/CTS1000/FPGA/FPGA_V21/CLKGen.vhd
+l0
+L6
+Z15 V0>elG`7[46B26VS6k1S@j0
+Z16 OL;C;10.0c;49
+33
+Z17 !s108 1527972242.467000
+Z18 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/CLKGen.vhd|
+Z19 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/CLKGen.vhd|
+Z20 o-2008 -work work
+Z21 tExplicit 1
+Z22 !s100 1_cl=>>d`>R5Y@fSX;FdD1
+Artl
+R9
+R10
+R11
+R12
+Z23 DEx4 work 6 clkgen 0 22 0>elG`7[46B26VS6k1S@j0
+l32
+L17
+Z24 VMDZ9PL;YT[@1<A?N?fCIL1
+R16
+33
+R17
+R18
+R19
+R20
+R21
+Z25 !s100 f6gimTgSXQjZ2kT6jCn_T3
+Econtroller
+Z26 w1526564245
+R9
+R10
+R11
+R12
+R7
+Z27 8E:/myfile/CTS1000/FPGA/FPGA_V21/Controller.vhd
+Z28 FE:/myfile/CTS1000/FPGA/FPGA_V21/Controller.vhd
+l0
+L6
+Z29 VEZM^c<l;YN;:9J=zbWPOm0
+R16
+33
+Z30 !s108 1527972241.750000
+Z31 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/Controller.vhd|
+Z32 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/Controller.vhd|
+R20
+R21
+Z33 !s100 FMk?k8^V_9CQ93k^jn@7B3
+Artl
+R9
+R10
+R11
+R12
+Z34 DEx4 work 10 controller 0 22 EZM^c<l;YN;:9J=zbWPOm0
+l36
+L21
+Z35 VgIQkk?0aL`[@W0HgCmh`>1
+R16
+33
+R30
+R31
+R32
+R20
+R21
+Z36 !s100 KV7AP;@H:3=Yi7>hK7:Vb3
+Eencode_4x
+Z37 w1526383012
+R9
+R10
+R11
+R12
+R7
+Z38 8E:/myfile/CTS1000/FPGA/FPGA_V21/Encode_4x.vhd
+Z39 FE:/myfile/CTS1000/FPGA/FPGA_V21/Encode_4x.vhd
+l0
+L6
+Z40 V2f7z@d[7mKFB6m=bA[<U:3
+R16
+33
+Z41 !s108 1527972243.512000
+Z42 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/Encode_4x.vhd|
+Z43 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/Encode_4x.vhd|
+R20
+R21
+Z44 !s100 V[mSlb[aIjoB6JXJM=CCY2
+Artl
+R9
+R10
+R11
+R12
+Z45 DEx4 work 9 encode_4x 0 22 2f7z@d[7mKFB6m=bA[<U:3
+l34
+L22
+Z46 VgUFk_jWRZSfDn6kk6lnC=0
+R16
+33
+R41
+R42
+R43
+R20
+R21
+Z47 !s100 <n<WMVV;^07>:E?1eO2E@1
+Eencode_cp
+Z48 w1526752609
+R9
+R10
+R11
+R12
+R7
+Z49 8E:/myfile/CTS1000/FPGA/FPGA_V21/EncodeCP.vhd
+Z50 FE:/myfile/CTS1000/FPGA/FPGA_V21/EncodeCP.vhd
+l0
+L6
+Z51 V4d8]m@Gl67BEj:LQNloI^3
+R16
+33
+Z52 !s108 1527972244.214000
+Z53 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/EncodeCP.vhd|
+Z54 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/EncodeCP.vhd|
+R20
+R21
+Z55 !s100 g1L0;UCF0eL_h]LGmR;>b2
+Artl
+R9
+R10
+R11
+R12
+Z56 DEx4 work 9 encode_cp 0 22 4d8]m@Gl67BEj:LQNloI^3
+l25
+L19
+Z57 VS::D^]__R_=5<26^9b8YB0
+R16
+33
+R52
+R53
+R54
+R20
+R21
+Z58 !s100 3fHCIMlI><]C5HHEGR<L=3
+Eencode_filter
+Z59 w1526283657
+R9
+R10
+R11
+R12
+R7
+Z60 8E:/myfile/CTS1000/FPGA/FPGA_V21/ENFilter.vhd
+Z61 FE:/myfile/CTS1000/FPGA/FPGA_V21/ENFilter.vhd
+l0
+L6
+Z62 VcY`CRzj@8mSS40L7dCBoc2
+R16
+33
+Z63 !s108 1527972243.169000
+Z64 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/ENFilter.vhd|
+Z65 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/ENFilter.vhd|
+R20
+R21
+Z66 !s100 Hf23iiZeLi0YQKWSR=2K?1
+Artl
+R9
+R10
+R11
+R12
+Z67 DEx4 work 13 encode_filter 0 22 cY`CRzj@8mSS40L7dCBoc2
+l20
+L15
+Z68 V6n9ndBDJVeHUSmM?QL>G51
+R16
+33
+R63
+R64
+R65
+R20
+R21
+Z69 !s100 ]ZS>3CnLilQI[FBo<aeRU1
+Efifo_16bit_2k
+Z70 w1527880371
+R9
+R10
+R11
+R12
+R7
+Z71 8E:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_16Bit_2K.vhd
+Z72 FE:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_16Bit_2K.vhd
+l0
+L6
+Z73 V:WWaB32bcL3P2HM2X^:3K2
+R16
+33
+Z74 !s108 1527972240.580000
+Z75 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_16Bit_2K.vhd|
+Z76 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_16Bit_2K.vhd|
+R20
+R21
+Z77 !s100 Wk5WCngRH28UVgAz4CM<S2
+Artl
+R9
+R10
+R11
+R12
+Z78 DEx4 work 13 fifo_16bit_2k 0 22 :WWaB32bcL3P2HM2X^:3K2
+l47
+L23
+Z79 Vl^F<hX?HRHm9>]II]29UI1
+R16
+33
+R74
+R75
+R76
+R20
+R21
+Z80 !s100 P9nZILZ3lPY5K3]h@RdkF3
+Efifo_core
+Z81 w1389055362
+R11
+R12
+R7
+Z82 8E:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_Core.vhd
+Z83 FE:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_Core.vhd
+l0
+L42
+Z84 VRZ:aVDc^i0z4SXR8Y1;eB2
+R16
+33
+Z85 !s108 1527972242.810000
+Z86 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_Core.vhd|
+Z87 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/FIFO_Core.vhd|
+R20
+R21
+Z88 !s100 d2`V^US96k4BRdB<CA3dl1
+Asyn
+R11
+R12
+Z89 DEx4 work 9 fifo_core 0 22 RZ:aVDc^i0z4SXR8Y1;eB2
+l98
+L59
+Z90 V3GW:;;?LJ7HD>6f6V[VOE0
+R16
+33
+R85
+R86
+R87
+R20
+R21
+Z91 !s100 X^bljAjG5A?944_nHYGV91
+Eled_check
+Z92 w1527900099
+R9
+R10
+R11
+R12
+R7
+Z93 8E:/myfile/CTS1000/FPGA/FPGA_V21/LEDCheck.vhd
+Z94 FE:/myfile/CTS1000/FPGA/FPGA_V21/LEDCheck.vhd
+l0
+L6
+Z95 V<DbPm[GNjn4X7:JgiGiWa3
+R16
+33
+Z96 !s108 1527972243.887000
+Z97 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/LEDCheck.vhd|
+Z98 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/LEDCheck.vhd|
+R20
+R21
+Z99 !s100 LkHKLi>36m6MaW:V2:N_X3
+Artl
+R9
+R10
+R11
+R12
+Z100 DEx4 work 9 led_check 0 22 <DbPm[GNjn4X7:JgiGiWa3
+l24
+L15
+Z101 V8>O0RL3h>66A9[WjiIoW51
+R16
+33
+R96
+R97
+R98
+R20
+R21
+Z102 !s100 jN]4Ck95GYc1U;Yg@=Jf_2
+Epll_core
+Z103 w1398065600
+R11
+R12
+R7
+Z104 8E:/myfile/CTS1000/FPGA/FPGA_V21/PLL_Core.vhd
+Z105 FE:/myfile/CTS1000/FPGA/FPGA_V21/PLL_Core.vhd
+l0
+L42
+Z106 VQQhH@`n9L^k`HRC@l22K:3
+R16
+33
+Z107 !s108 1527972908.553000
+Z108 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/PLL_Core.vhd|
+Z109 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/PLL_Core.vhd|
+R20
+R21
+Z110 !s100 4>?SNU89jlUgC_5^LXRRW1
+Asyn
+R11
+R12
+Z111 DEx4 work 8 pll_core 0 22 QQhH@`n9L^k`HRC@l22K:3
+l137
+L54
+Z112 VUKYbZ8bPGKS^544JO0cW11
+R16
+33
+Z113 !s108 1527972242.124000
+R108
+R109
+R20
+R21
+Z114 !s100 F:1Vk_o_<<jGZ7zWjR@z12
+vPLL_Core_altpll
+Z115 Izc9Hc9f`dn^EO58Y]_6TV0
+Z116 V;eUC^G_lj[Z`XQ>X_hAO>1
+R7
+Z117 w1526194865
+Z118 8E:/myfile/CTS1000/FPGA/FPGA_V21/db/PLL_Core_altpll.v
+Z119 FE:/myfile/CTS1000/FPGA/FPGA_V21/db/PLL_Core_altpll.v
+L0 30
+Z120 OL;L;10.0c;49
+r1
+31
+Z121 o-vlog01compat -work work -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+Z122 n@p@l@l_@core_altpll
+Z123 !s100 58<aOKP3fH9QEc]`L71oh1
+Z124 !s108 1527972922.125000
+Z125 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/db/PLL_Core_altpll.v|
+Z126 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+E:/myfile/CTS1000/FPGA/FPGA_V21/db|-L|mtiAvm|-L|mtiOvm|-L|mtiUvm|-L|mtiUPF|E:/myfile/CTS1000/FPGA/FPGA_V21/db/PLL_Core_altpll.v|
+Z127 !s92 -vlog01compat -work work +incdir+E:/myfile/CTS1000/FPGA/FPGA_V21/db -L mtiAvm -L mtiOvm -L mtiUvm -L mtiUPF
+!s85 0
+Esdram_controller
+Z128 w1526487681
+R9
+R10
+R11
+R12
+R7
+Z129 8E:/myfile/CTS1000/FPGA/FPGA_V21/SDRAM_Controller.vhd
+Z130 FE:/myfile/CTS1000/FPGA/FPGA_V21/SDRAM_Controller.vhd
+l0
+L6
+Z131 ViaSn6U6JhfIZ@=B35mF9k3
+R16
+33
+Z132 !s108 1527972241.375000
+Z133 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/SDRAM_Controller.vhd|
+Z134 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/SDRAM_Controller.vhd|
+R20
+R21
+Z135 !s100 Y>f<]:=kCmnfUSNfA]7Ug0
+Artl
+R9
+R10
+R11
+R12
+Z136 DEx4 work 16 sdram_controller 0 22 iaSn6U6JhfIZ@=B35mF9k3
+l73
+L34
+Z137 VU5Zf]WbR_cVh9h1B;KY;d3
+R16
+33
+R132
+R133
+R134
+R20
+R21
+Z138 !s100 NYIjzFkg:_IknGJL_WkR:0
+Eusb2_sdram_project
+Z139 w1527973116
+R9
+R10
+R11
+R12
+R7
+Z140 8E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd
+Z141 FE:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd
+l0
+L6
+Z142 V8VJXEJz2fah^F_iQjb3KM2
+R16
+33
+Z143 !s108 1527973145.041000
+Z144 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd|
+Z145 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/USB2_SDRAM_Project.vhd|
+R20
+R21
+Z146 !s100 ^PcWJPWh3_L52=<mR_co>3
+Artl
+R9
+R10
+R11
+R12
+Z147 DEx4 work 18 usb2_sdram_project 0 22 8VJXEJz2fah^F_iQjb3KM2
+l313
+L70
+Z148 VMgz5Lg0_M1zJ=<OGoX[XZ2
+R16
+33
+R143
+R144
+R145
+R20
+R21
+Z149 !s100 Y4hZ[3WjlK;NT9SENf]hV2
+Eusb2_sdram_project_vhd_tst
+Z150 w1527972511
+R11
+R12
+R7
+Z151 8E:/myfile/CTS1000/FPGA/FPGA_V21/simulation/modelsim/USB2_SDRAM_Project.vht
+Z152 FE:/myfile/CTS1000/FPGA/FPGA_V21/simulation/modelsim/USB2_SDRAM_Project.vht
+l0
+L30
+Z153 Vh<fVcm[D<KORGfdm>LF`l2
+R16
+33
+Z154 !s108 1527972528.938000
+Z155 !s90 -reportprogress|300|-2008|-work|work|E:/myfile/CTS1000/FPGA/FPGA_V21/simulation/modelsim/USB2_SDRAM_Project.vht|
+Z156 !s107 E:/myfile/CTS1000/FPGA/FPGA_V21/simulation/modelsim/USB2_SDRAM_Project.vht|
+R20
+R21
+Z157 !s100 L>03bUZDm2YSaJV8aJina1
+Ausb2_sdram_project_arch
+R11
+R12
+Z158 DEx4 work 26 usb2_sdram_project_vhd_tst 0 22 h<fVcm[D<KORGfdm>LF`l2
+l173
+L32
+Z159 VDHi;z_7FQ_N@bj=23[Z<c0
+R16
+33
+R154
+R155
+R156
+R20
+R21
+Z160 !s100 ]9dSfV;X`z22_W;0LFQ`R3

@@ -1,0 +1,45 @@
+
+State Machine - |USB2_SDRAM_Project|SDRAM_Controller:U4|present_state
+Name present_state.COMMANDDONE present_state.CAS present_state.READDATA present_state.WRITEDATA_TWR present_state.WRITEDATA present_state.ACTIVEROW_TRCD present_state.ACTIVEROW present_state.IDLE present_state.LOADMODE_TRMD present_state.LOADMODE present_state.AUTOREFRESH_TRC present_state.AUTOREFRESH present_state.PRECHARGE_TRP present_state.PRECHARGE present_state.INIT 
+present_state.INIT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+present_state.PRECHARGE 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+present_state.PRECHARGE_TRP 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+present_state.AUTOREFRESH 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+present_state.AUTOREFRESH_TRC 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+present_state.LOADMODE 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+present_state.LOADMODE_TRMD 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+present_state.IDLE 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+present_state.ACTIVEROW 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+present_state.ACTIVEROW_TRCD 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+present_state.WRITEDATA 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+present_state.WRITEDATA_TWR 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+present_state.READDATA 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+present_state.CAS 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+present_state.COMMANDDONE 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |USB2_SDRAM_Project|SDRAM_Controller:U3|present_state
+Name present_state.COMMANDDONE present_state.CAS present_state.READDATA present_state.WRITEDATA_TWR present_state.WRITEDATA present_state.ACTIVEROW_TRCD present_state.ACTIVEROW present_state.IDLE present_state.LOADMODE_TRMD present_state.LOADMODE present_state.AUTOREFRESH_TRC present_state.AUTOREFRESH present_state.PRECHARGE_TRP present_state.PRECHARGE present_state.INIT 
+present_state.INIT 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+present_state.PRECHARGE 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+present_state.PRECHARGE_TRP 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+present_state.AUTOREFRESH 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+present_state.AUTOREFRESH_TRC 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+present_state.LOADMODE 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+present_state.LOADMODE_TRMD 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+present_state.IDLE 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+present_state.ACTIVEROW 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+present_state.ACTIVEROW_TRCD 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+present_state.WRITEDATA 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+present_state.WRITEDATA_TWR 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+present_state.READDATA 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+present_state.CAS 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+present_state.COMMANDDONE 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |USB2_SDRAM_Project|Controller:U2|present_state
+Name present_state.S5 present_state.S4 present_state.S3 present_state.S2 present_state.S1 present_state.S0 
+present_state.S0 0 0 0 0 0 0 
+present_state.S1 0 0 0 0 1 1 
+present_state.S2 0 0 0 1 0 1 
+present_state.S3 0 0 1 0 0 1 
+present_state.S4 0 1 0 0 0 1 
+present_state.S5 1 0 0 0 0 1 

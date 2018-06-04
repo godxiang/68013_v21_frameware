@@ -1,0 +1,126 @@
+--------------------------------------------------------------------------------------
+Timing Analyzer Summary
+--------------------------------------------------------------------------------------
+
+Type           : Worst-case tsu
+Slack          : N/A
+Required Time  : None
+Actual Time    : 10.214 ns
+From           : DQ0[3]
+To             : FIFO_8Bit_2K:U3|FIFO_Core:U0|dcfifo:dcfifo_component|dcfifo_tvm1:auto_generated|altsyncram_to61:fifo_ram|altsyncram_9ve1:altsyncram14|ram_block15a2~portb_datain_reg1
+From Clock     : --
+To Clock       : CLK50M
+Failed Paths   : 0
+
+Type           : Worst-case tco
+Slack          : N/A
+Required Time  : None
+Actual Time    : 11.093 ns
+From           : Camera:U1|iic_data_t
+To             : IIC_DATA
+From Clock     : CLK50M
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case tpd
+Slack          : N/A
+Required Time  : None
+Actual Time    : 5.163 ns
+From           : CLK50M
+To             : XCLK
+From Clock     : --
+To Clock       : --
+Failed Paths   : 0
+
+Type           : Worst-case th
+Slack          : N/A
+Required Time  : None
+Actual Time    : -1.145 ns
+From           : IIC_DATA
+To             : Camera:U1|ack_t3
+From Clock     : --
+To Clock       : CLK50M
+Failed Paths   : 0
+
+Type           : Clock Setup: 'CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0'
+Slack          : 0.627 ns
+Required Time  : 108.34 MHz ( period = 9.230 ns )
+Actual Time    : 125.38 MHz ( period = 7.976 ns )
+From           : SDRAM_Controller:U4|ReadCameraFIFO
+To             : FIFO_8Bit_2K:U2|FIFO_Core:U0|dcfifo:dcfifo_component|dcfifo_tvm1:auto_generated|altsyncram_to61:fifo_ram|altsyncram_9ve1:altsyncram14|q_a[7]
+From Clock     : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0
+To Clock       : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Clock Setup: 'CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk1'
+Slack          : 0.973 ns
+Required Time  : 72.22 MHz ( period = 13.846 ns )
+Actual Time    : N/A
+From           : FIFO_8Bit_2K:U3|FIFO_Core:U0|dcfifo:dcfifo_component|dcfifo_tvm1:auto_generated|dffpipe_qe9:ws_bwp|dffe19a[0]
+To             : Controller:U6|present_state
+From Clock     : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0
+To Clock       : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk1
+Failed Paths   : 0
+
+Type           : Clock Setup: 'CLK50M'
+Slack          : 6.033 ns
+Required Time  : 50.00 MHz ( period = 20.000 ns )
+Actual Time    : 126.04 MHz ( period = 7.934 ns )
+From           : Camera:U1|altsyncram:Mux43_rtl_0|altsyncram_4m11:auto_generated|ram_block1a0~porta_address_reg7
+To             : Camera:U1|temp_data[0]
+From Clock     : CLK50M
+To Clock       : CLK50M
+Failed Paths   : 0
+
+Type           : Clock Setup: 'PCLK'
+Slack          : N/A
+Required Time  : None
+Actual Time    : 95.32 MHz ( period = 10.491 ns )
+From           : FIFO_8Bit_2K:U2|FIFO_Core:U0|dcfifo:dcfifo_component|dcfifo_tvm1:auto_generated|a_graycounter_ggc:wrptr_gp|counter13a[8]
+To             : FIFO_8Bit_2K:U2|FIFO_Core:U0|dcfifo:dcfifo_component|dcfifo_tvm1:auto_generated|a_graycounter_ggc:wrptr_gp|counter13a[10]
+From Clock     : PCLK
+To Clock       : PCLK
+Failed Paths   : 0
+
+Type           : Clock Hold: 'CLK50M'
+Slack          : -0.151 ns
+Required Time  : 50.00 MHz ( period = 20.000 ns )
+Actual Time    : N/A
+From           : Camera:U1|count_clk[2]
+To             : Camera:U1|clk_200k_t
+From Clock     : CLK50M
+To Clock       : CLK50M
+Failed Paths   : 1
+
+Type           : Clock Hold: 'CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0'
+Slack          : 0.499 ns
+Required Time  : 108.34 MHz ( period = 9.230 ns )
+Actual Time    : N/A
+From           : SDRAM_Controller:U5|A[10]
+To             : SDRAM_Controller:U5|A[10]
+From Clock     : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0
+To Clock       : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk0
+Failed Paths   : 0
+
+Type           : Clock Hold: 'CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk1'
+Slack          : 0.499 ns
+Required Time  : 72.22 MHz ( period = 13.846 ns )
+Actual Time    : N/A
+From           : Controller:U6|present_state
+To             : Controller:U6|present_state
+From Clock     : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk1
+To Clock       : CLKGen:U0|PLL_Core:U0|altpll:altpll_component|_clk1
+Failed Paths   : 0
+
+Type           : Total number of failed paths
+Slack          : 
+Required Time  : 
+Actual Time    : 
+From           : 
+To             : 
+From Clock     : 
+To Clock       : 
+Failed Paths   : 1
+
+--------------------------------------------------------------------------------------
+

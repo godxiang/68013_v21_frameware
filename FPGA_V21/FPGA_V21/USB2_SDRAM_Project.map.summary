@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Sun Jun 03 15:44:45 2018
+Quartus II 64-Bit Version : 11.0 Build 208 07/03/2011 SP 1 SJ Full Version
+Revision Name : USB2_SDRAM_Project
+Top-level Entity Name : USB2_SDRAM_Project
+Family : Cyclone IV E
+Total logic elements : 810
+    Total combinational functions : 731
+    Dedicated logic registers : 416
+Total registers : 416
+Total pins : 135
+Total virtual pins : 0
+Total memory bits : 65,536
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 1

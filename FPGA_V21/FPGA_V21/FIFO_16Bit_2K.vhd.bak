@@ -1,0 +1,62 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_arith.all;
+USE ieee.std_logic_unsigned.all;
+
+ENTITY FIFO_16Bit_2K IS
+PORT
+(
+	RESETn : in std_logic;		
+	WCLK : in std_logic;
+	RCLK : in std_logic;
+	WEN : in std_logic;
+	REN : in std_logic;
+	DIN : in std_logic_vector(15 downto 0);
+	DOUT : out std_logic_vector(15 downto 0);
+	HALFFULL : out std_logic;
+	HALFEMPTY : out std_logic;
+	FULL : out std_logic	
+);
+END FIFO_16Bit_2K;
+
+ARCHITECTURE RTL OF FIFO_16Bit_2K IS
+component FIFO_Core IS
+PORT
+(
+	aclr		: IN STD_LOGIC  := '0';
+	data		: IN STD_LOGIC_VECTOR (15 DOWNTO 0);
+	rdclk		: IN STD_LOGIC ;
+	rdreq		: IN STD_LOGIC ;
+	wrclk		: IN STD_LOGIC ;
+	wrreq		: IN STD_LOGIC ;
+	q			: OUT STD_LOGIC_VECTOR (15 DOWNTO 0);
+	rdusedw		: OUT STD_LOGIC_VECTOR (10 DOWNTO 0);
+	wrfull		: OUT STD_LOGIC ;
+	wrusedw		: OUT STD_LOGIC_VECTOR (10 DOWNTO 0)
+);
+end component;
+
+signal hf : std_logic_vector(10 downto 0) := ( others => '0' );
+signal he : std_logic_vector(10 downto 0) := ( others => '0' );
+
+begin
+
+HALFFULL <= hf(10);
+HALFEMPTY <= he(10);
+
+U0:FIFO_Core
+PORT MAP
+(
+	aclr => not RESETn,
+	data => DIN,
+	rdclk => RCLK,
+	rdreq => REN,
+	wrclk => WCLK,
+	wrreq => WEN,
+	q => DOUT,
+	rdusedw => he,
+	wrfull => FULL,
+	wrusedw => hf
+);
+
+END RTL;

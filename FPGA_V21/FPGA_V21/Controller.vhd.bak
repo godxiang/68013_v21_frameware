@@ -1,0 +1,120 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_arith.all;
+USE ieee.std_logic_unsigned.all;
+
+ENTITY Controller IS
+PORT
+(
+	RESETn : in std_logic;		
+	CLK108M : in std_logic;
+	CLK72M : in std_logic;
+	SDRAMFULL : in std_logic_vector(1 downto 0);
+	SDRAMEMPTY : in std_logic_vector(1 downto 0);
+	WR : out std_logic_vector(3 downto 0);
+	FLAGA : in std_logic;
+	SLWR : out std_logic;
+	IFCLK : out std_logic;
+	FIFOADR : out std_logic_vector(1 downto 0);
+	MCUFIFOFULL : in std_logic;	
+	READMCUFIFO : out std_logic
+);
+END Controller;
+
+ARCHITECTURE RTL OF Controller IS
+
+type state is ( IDEL, WRITEDATA );
+signal present_state : state := IDEL;
+signal count_clk : integer range 0 to 1023 := 0;
+signal clk36m_t : std_logic := '0';
+signal wr_t : std_logic_vector(3 downto 0);
+
+begin
+
+	FIFOADR <= "10";
+	SLWR <= '0';
+	
+	process ( RESETn, CLK72M )
+	begin
+		if ( RESETn = '0' ) then
+			count_clk <= 0;
+			clk36m_t <= '0';
+			present_state <= IDEL;
+		elsif ( CLK72M'event and CLK72M = '1' ) then
+			case present_state is
+				when IDEL =>
+					count_clk <= 0;
+					clk36m_t <= '0';
+					--if ( FLAGA = '1' ) then
+						if ( MCUFIFOFULL = '1' ) then
+							present_state <= WRITEDATA;
+						else
+							present_state <= IDEL;
+						end if;
+					--else
+						--present_state <= IDEL;
+					--end if;
+				when WRITEDATA =>
+					if ( clk36m_t = '1' ) then
+						if ( count_clk = 1023 ) then
+							count_clk <= 0;
+							clk36m_t <= '0';
+							present_state <= IDEL;
+						else
+							count_clk <= count_clk + 1;
+							clk36m_t <= '0';
+							present_state <= WRITEDATA;
+						end if;
+					else
+						clk36m_t <= '1';
+						present_state <= WRITEDATA;
+					end if;
+				when others => 
+					clk36m_t <= '0';
+					present_state <= IDEL;
+			end case;					
+		end if;
+	end process;
+	
+	process ( RESETn, CLK72M )
+	begin
+		if ( RESETn = '0' ) then
+			IFCLK <= '0';
+		elsif ( CLK72M'event and CLK72M = '1' ) then
+			IFCLK <= clk36m_t;
+		end if;
+	end process;
+	
+	READMCUFIFO <= clk36m_t;
+	
+	wr_t <= ( SDRAMFULL & SDRAMEMPTY );
+	
+	process ( RESETn, CLK108M )
+	begin
+		if ( RESETn = '0' ) then
+			WR <= "0100";
+		elsif ( CLK108M'event and CLK108M = '1' ) then
+			case wr_t is 
+				when "1000" =>
+					WR <= "1001";
+				when "0100" =>
+					WR <= "0110";
+				when "0010" =>
+					WR <= "0001";
+				when "0001" =>
+					WR <= "0100";
+				when "1001" =>
+					WR <= "1001";
+				when "0110" =>
+					WR <= "0110";
+				when "1100" =>
+					WR <= "1000";
+				when "0011" =>
+					WR <= "0100";
+				when others =>
+					WR <= "0100";
+			end case;					
+		end if;
+	end process;
+
+END RTL;

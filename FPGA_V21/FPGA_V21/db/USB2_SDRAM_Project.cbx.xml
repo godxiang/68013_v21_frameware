@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="USB2_SDRAM_Project">
+		<CBX_INST_ENTRY INSTANCE_NAME="|USB2_SDRAM_Project|CLKGen:U0|PLL_Core:U0|altpll:altpll_component" CBX_FILE_NAME="PLL_Core_altpll.v"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|USB2_SDRAM_Project|FIFO_16Bit_2K:U1|FIFO_Core:U0|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_d7n1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|USB2_SDRAM_Project|FIFO_16Bit_2K:U5|FIFO_Core:U0|dcfifo:dcfifo_component" CBX_FILE_NAME="dcfifo_d7n1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

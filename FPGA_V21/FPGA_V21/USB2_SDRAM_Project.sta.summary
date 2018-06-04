@@ -1,0 +1,281 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : -6.402
+TNS   : -43.761
+
+Type  : Slow 1200mV 85C Model Setup 'CPU_Set'
+Slack : -4.580
+TNS   : -45.606
+
+Type  : Slow 1200mV 85C Model Setup 'CPU_WR'
+Slack : -0.304
+TNS   : -1.165
+
+Type  : Slow 1200mV 85C Model Setup 'CLK48M'
+Slack : -0.101
+TNS   : -0.101
+
+Type  : Slow 1200mV 85C Model Setup 'CPU_RD'
+Slack : -0.095
+TNS   : -0.540
+
+Type  : Slow 1200mV 85C Model Setup 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 1.040
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Setup 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 5.443
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'CPU_Set'
+Slack : -0.915
+TNS   : -5.482
+
+Type  : Slow 1200mV 85C Model Hold 'CLK48M'
+Slack : -0.658
+TNS   : -0.658
+
+Type  : Slow 1200mV 85C Model Hold 'CPU_RD'
+Slack : 0.247
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : 0.432
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 0.435
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.452
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Hold 'CPU_WR'
+Slack : 0.551
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Recovery 'CPU_RD'
+Slack : -0.436
+TNS   : -2.532
+
+Type  : Slow 1200mV 85C Model Removal 'CPU_RD'
+Slack : 0.089
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CPU_WR'
+Slack : -3.000
+TNS   : -26.792
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CPU_RD'
+Slack : -3.000
+TNS   : -14.896
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CPU_Set'
+Slack : -3.000
+TNS   : -3.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : -1.487
+TNS   : -17.844
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.346
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CLK48M'
+Slack : 10.162
+TNS   : 0.000
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 27.535
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : -5.799
+TNS   : -39.374
+
+Type  : Slow 1200mV 0C Model Setup 'CPU_Set'
+Slack : -3.949
+TNS   : -40.503
+
+Type  : Slow 1200mV 0C Model Setup 'CPU_WR'
+Slack : -0.208
+TNS   : -0.489
+
+Type  : Slow 1200mV 0C Model Setup 'CLK48M'
+Slack : -0.198
+TNS   : -0.198
+
+Type  : Slow 1200mV 0C Model Setup 'CPU_RD'
+Slack : -0.060
+TNS   : -0.120
+
+Type  : Slow 1200mV 0C Model Setup 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 1.274
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 5.603
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'CPU_Set'
+Slack : -0.694
+TNS   : -3.755
+
+Type  : Slow 1200mV 0C Model Hold 'CLK48M'
+Slack : -0.674
+TNS   : -0.674
+
+Type  : Slow 1200mV 0C Model Hold 'CPU_RD'
+Slack : 0.227
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : 0.382
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.400
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 0.400
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'CPU_WR'
+Slack : 0.512
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Recovery 'CPU_RD'
+Slack : -0.238
+TNS   : -1.052
+
+Type  : Slow 1200mV 0C Model Removal 'CPU_RD'
+Slack : 0.062
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CPU_WR'
+Slack : -3.000
+TNS   : -26.792
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CPU_RD'
+Slack : -3.000
+TNS   : -14.896
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CPU_Set'
+Slack : -3.000
+TNS   : -3.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : -1.487
+TNS   : -17.844
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.344
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CLK48M'
+Slack : 10.170
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 27.538
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : -3.027
+TNS   : -16.011
+
+Type  : Fast 1200mV 0C Model Setup 'CPU_Set'
+Slack : -2.464
+TNS   : -19.412
+
+Type  : Fast 1200mV 0C Model Setup 'CLK48M'
+Slack : -0.082
+TNS   : -0.082
+
+Type  : Fast 1200mV 0C Model Setup 'CPU_WR'
+Slack : 0.459
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'CPU_RD'
+Slack : 0.497
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 3.003
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 7.612
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'CPU_Set'
+Slack : -0.897
+TNS   : -6.416
+
+Type  : Fast 1200mV 0C Model Hold 'CLK48M'
+Slack : -0.339
+TNS   : -0.339
+
+Type  : Fast 1200mV 0C Model Hold 'CPU_RD'
+Slack : 0.116
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 0.156
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 0.166
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : 0.179
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'CPU_WR'
+Slack : 0.217
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Recovery 'CPU_RD'
+Slack : -0.620
+TNS   : -4.488
+
+Type  : Fast 1200mV 0C Model Removal 'CPU_RD'
+Slack : 0.059
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CPU_WR'
+Slack : -3.000
+TNS   : -24.934
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CPU_Set'
+Slack : -3.000
+TNS   : -15.649
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CPU_RD'
+Slack : -3.000
+TNS   : -14.062
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'LED_Check:U9|Low_Clk_Counter[19]'
+Slack : -1.000
+TNS   : -12.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'U0|U0|altpll_component|auto_generated|pll1|clk[0]'
+Slack : 4.364
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLK48M'
+Slack : 9.680
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'U0|U0|altpll_component|auto_generated|pll1|clk[1]'
+Slack : 27.521
+TNS   : 0.000
+
+------------------------------------------------------------
